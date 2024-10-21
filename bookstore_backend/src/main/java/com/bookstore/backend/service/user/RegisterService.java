@@ -1,14 +1,13 @@
 package com.bookstore.backend.service.user;
 
-import com.bookstore.backend.service.impl.user.LoginServiceImpl;
-import org.springframework.stereotype.Service;
+import java.util.Map;
 
 /**
- * @ClassName UserService
+ * @ClassName RegisterService
  * @Author WuTong w13694105330@163.com
- * @Date 2024/9/29 22:50
+ * @Date 2024/8/19 22:28
  * @Version V1.0
  **/
-@Service
-public interface RegisterService{
+public interface RegisterService {
+    Map<String, String> register(String username, String password, String confirmedPassword);
 }

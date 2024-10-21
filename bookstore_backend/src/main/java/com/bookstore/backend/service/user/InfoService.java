@@ -9,5 +9,5 @@ import java.util.Map;
  * @Version V1.0
  **/
 public interface InfoService {
-    public Map<String, String> getinfo();
+    Map<String, String> getinfo();
 }
