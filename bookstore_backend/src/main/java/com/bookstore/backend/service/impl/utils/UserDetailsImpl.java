@@ -1,4 +1,4 @@
-package com.bookstore.backend.service.utils;
+package com.bookstore.backend.service.impl.utils;
 
 import com.bookstore.backend.entity.User;
 import lombok.AllArgsConstructor;

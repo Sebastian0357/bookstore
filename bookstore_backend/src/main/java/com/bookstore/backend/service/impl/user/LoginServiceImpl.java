@@ -3,7 +3,7 @@ package com.bookstore.backend.service.impl.user;
 
 import com.bookstore.backend.entity.User;
 import com.bookstore.backend.service.user.LoginService;
-import com.bookstore.backend.service.utils.UserDetailsImpl;
+import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
 import com.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired(required = false)
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Override

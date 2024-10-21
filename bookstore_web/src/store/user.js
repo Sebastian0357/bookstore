@@ -1,6 +1,7 @@
 import $ from 'jquery'
 
 export default {
+    namespace: true,
     state: {
         id: "",
         username: "",
@@ -53,7 +54,7 @@ export default {
         login(context, data) {
             
             $.ajax({
-                url: "http://127.0.0.1:3000/user/account/token/",
+                url: "http://127.0.0.1:3000/user/token/",
                 type: "post",
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify({
@@ -75,7 +76,7 @@ export default {
         },
         getinfo(context, data) {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/account/info/",
+                url: "http://127.0.0.1:3000/user/info/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,

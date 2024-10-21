@@ -20,10 +20,8 @@ import java.util.UUID;
  **/
 @Component
 public class JwtUtil {
-    /** 有效期14天 */
-    public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;
-    /** 密钥 */
-    public static final String JWT_KEY = "SDFGjhdsfalshdfH45yt654Fdsjkdsfds121232131afasdfac";
+    public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;  // 有效期14天
+    public static final String JWT_KEY = "JSDFSDFSDFASJDHASDASDdfa32dJHASFDA67765asda123";
 
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
@@ -61,7 +59,7 @@ public class JwtUtil {
 
     public static Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(jwt)

@@ -1,9 +1,9 @@
-package com.bookstore.backend.service;
+package com.bookstore.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bookstore.backend.entity.User;
 import com.bookstore.backend.mapper.UserMapper;
-import com.bookstore.backend.service.utils.UserDetailsImpl;
+import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

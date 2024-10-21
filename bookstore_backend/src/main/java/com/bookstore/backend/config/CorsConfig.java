@@ -1,9 +1,10 @@
 package com.bookstore.backend.config;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration

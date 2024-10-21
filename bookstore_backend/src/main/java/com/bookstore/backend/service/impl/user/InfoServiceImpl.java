@@ -2,7 +2,7 @@ package com.bookstore.backend.service.impl.user;
 
 import com.bookstore.backend.entity.User;
 import com.bookstore.backend.service.user.InfoService;
-import com.bookstore.backend.service.utils.UserDetailsImpl;
+import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
