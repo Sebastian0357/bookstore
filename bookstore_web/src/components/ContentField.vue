@@ -13,4 +13,10 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  position : absolute;
+	width : 100%;
+	height : 100%;
+}
+
 </style>

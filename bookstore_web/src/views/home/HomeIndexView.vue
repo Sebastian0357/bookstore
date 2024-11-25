@@ -13,10 +13,10 @@
     <div class="container">
       <div class="row justify-content-md-center">
         <div class="col-sm col-md-auto hot-tag">最近热搜</div>
-        <a href="" class="col-sm col-md-auto serach-tag">我与地坛</a>
-        <a href="" class="col-sm col-md-auto serach-tag">我与地坛地坛地坛</a>
-        <a href="" class="col-sm col-md-auto serach-tag">我与地坛</a>
-        <a href="" class="col-sm col-md-auto serach-tag">我与地坛地坛地坛</a>
+        <a href="" class="col-sm col-md-auto serach-tag">小巷人家</a>
+        <a href="" class="col-sm col-md-auto serach-tag">人生总会有答案</a>
+        <a href="" class="col-sm col-md-auto serach-tag">最小阻力之路</a>
+        <a href="" class="col-sm col-md-auto serach-tag">看世界</a>
       </div>
     </div>
   </div>
@@ -39,6 +39,38 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">我与地坛</h5>
+            <p class="card-text">史铁生</p>
+            <small class="text-muted">大家都在读</small>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="bookimg">
+            <img
+              src="@/assets/images/t6_674048.png"
+              class="card-img-top"
+              alt="..."
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">邓小平时代</h5>
+            <p class="card-text">傅高义</p>
+            <small class="text-muted">大家都在读</small>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="bookimg">
+            <img
+              src="@/assets/images/t6_834464.png"
+              class="card-img-top"
+              alt="..."
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">或者</h5>
             <p class="card-text">余华</p>
             <small class="text-muted">大家都在读</small>
           </div>
@@ -48,46 +80,14 @@
         <div class="card h-100">
           <div class="bookimg">
             <img
-              src="@/assets/images/我与地坛.png"
+              src="@/assets/images/t6_546339.png"
               class="card-img-top"
               alt="..."
             />
           </div>
           <div class="card-body">
-            <h5 class="card-title">我与地坛</h5>
-            <p class="card-text">余华</p>
-            <small class="text-muted">大家都在读</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="bookimg">
-            <img
-              src="@/assets/images/t6_546339.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">我与地坛</h5>
-            <p class="card-text">余华</p>
-            <small class="text-muted">大家都在读</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="bookimg">
-            <img
-              src="@/assets/images/我与地坛.png"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">我与地坛</h5>
-            <p class="card-text">余华</p>
+            <h5 class="card-title">追风筝的人</h5>
+            <p class="card-text">卡勒德·胡塞尼</p>
             <small class="text-muted">大家都在读</small>
           </div>
         </div>

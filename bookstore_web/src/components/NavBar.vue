@@ -23,18 +23,18 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'audio_index' }"
-              >有声书</router-link
-            >
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'shelf_index' }"
               >个人书架</router-link
             >
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'audio_index' }"
+              >我的订单</router-link
+            >
+          </li>
+          
         </ul>
-        <!-- $store.state.user.is_login -->
-        <ul class="navbar-nav" v-if="false">
+        <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -44,24 +44,24 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <!-- {{ $store.state.user.username }} -->
+              {{ $store.state.user.username }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <!-- <li>
+              <li>
                 <router-link
                   class="dropdown-item"
-                  :to="{ name: 'user_bot_index' }"
+                  :to="{ name: 'user_index' }"
                   >我的Bot</router-link
                 >
-              </li> -->
+              </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <!-- <a class="dropdown-item" href="#" @click="logout">退出</a> -->
+                <a class="dropdown-item" href="#" @click="logout">退出</a>
               </li>
             </ul>
           </li>
         </ul>
-        <ul class="navbar-nav" v-else>
+        <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info">
           <li class="nav-item">
             <!-- 在相关页面使用router-link （其中的to中的内容是指转向的页面） -->
             <router-link

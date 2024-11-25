@@ -40,12 +40,13 @@ public class RegisterServiceImpl implements RegisterService {
 
         username = username.trim();
         if (username.length() == 0) {
-            map.put("error", "用户名不能为空");
+            map.put("message", "用户名不能为空");
             return map;
         }
 
+        password = password.trim();
         if (password.length() == 0 || confirmedPassword.length() == 0) {
-            map.put("error", "密码不能为空");
+            map.put("message", "密码不能为空");
             return map;
         }
 

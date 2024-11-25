@@ -1,5 +1,5 @@
 <template>
-    <ContentField>
+    <ContentField v-if="!$store.state.user.pulling_info">
         <div class="row justify-content-md-center">
             <div class="col-3">
                 <!-- @submit.prevent 点击提交按钮时，表单并不会提交，而是会触发绑定的函数，就像下边的onSubmith函数一样，
@@ -44,14 +44,15 @@
      6、ts为 ref() 标注类型
      ref 会根据初始化时的值推导其类型：
 */
-import { useStore } from 'vuex'
-import { ref } from 'vue'
+
 /** 
  * 传统的页面应用，是用一些超链接来实现页面切换和跳转的。
  * 在vue-router单页面应用中，则是路径之间的切换，实际上就是组件的切换。
  * 路由就是SPA（单页应用）的路径管理器。
  * 再通俗的说，vue-router就是我们WebApp的链接路径管理系统。
  */
+import { useStore } from 'vuex'
+import { ref } from 'vue'
 import router from '@/router';
 import ContentField from '@/components/ContentField.vue';
 
@@ -64,6 +65,24 @@ export default {
         let username = ref('');
         let password = ref('');
         let message = ref('');
+        let show_content = ref(false);
+
+        // jwt_token未过期 保持登录状态
+        const jwt_token = localStorage.getItem("jwt_token");
+        if (jwt_token) {
+            store.commit("updateToken", jwt_token);
+            store.dispatch("getinfo", {
+                success() {
+                    router.push({ name: "home" });
+                    store.commit("updatePullingInfo", false);
+                },
+                error() {
+                    store.commit("updatePullingInfo", false);
+                }
+            })
+        } else {
+            store.commit("updatePullingInfo", false);
+        }
 
         const login = () => {
             //每次提交清空message
@@ -94,6 +113,7 @@ export default {
             username,
             password,
             message,
+            show_content,
             login,
         }
     }

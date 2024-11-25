@@ -6,42 +6,65 @@ import UserAccountLoginView from '@/views/user/UserAccountLoginView.vue'
 import UserAccountRegisterView from '@/views/user/UserAccountRegisterView.vue'
 import UserIndexView from '@/views/user/UserIndexView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store/index'
+import GoodsManage from '@/views/goods/GoodsManage.vue'
 
 const routes = [
-  {
-    path: "/",
-    name:"index",
-    redirect: "/home/",
-  },
-  {
-    path: "/home/",
-    name: "home",
-    component: HomeIndexView,
-  },
-  {
-    path: "/audio/",
-    name: "audio_index",
-    component: AudioBookIndexView,
-  },
-  {
-    path: "/shelf/",
-    name: "shelf_index",
-    component: BookShelfIndexView,
-  },
-  {
-    path: "/user/",
-    name: "user_index",
-    component: UserIndexView,
-  },
   {
     path: "/user/login/",
     name: "user_login",
     component: UserAccountLoginView,
   },
   {
+    path: "/",
+    name:"index",
+    redirect: "/home/",
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/home/",
+    name: "home",
+    component: HomeIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/audio/",
+    name: "audio_index",
+    component: AudioBookIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/shelf/",
+    name: "shelf_index",
+    component: BookShelfIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/user/",
+    name: "user_index",
+    component: UserIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+
+  {
     path: "/user/register/",
     name: "user_register",
     component: UserAccountRegisterView,
+  },
+  {
+    path: "/GoodsManage/",
+    name: "good_manage",
+    component: GoodsManage,
   },
   {
     path: "/error/",
@@ -57,6 +80,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requestAuth && !store.state.user.is_login) {
+    next({name: "user_login"});
+  } else {
+    next();
+  }
 })
 
 export default router

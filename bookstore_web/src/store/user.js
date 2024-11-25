@@ -8,9 +8,11 @@ export default {
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true,  // 是否正在从云端拉取信息
     },
     getters: {
     },
+    // 同步放mutations
     mutations: {
         updateUser(state, user) {
             state.id = user.id;
@@ -27,9 +29,13 @@ export default {
             state.photo = "";
             state.token = "";
             state.is_login = false;
+        },
+        updatePullingInfo(state, pulling_info) {
+            state.pulling_info = pulling_info;
         }
+
     },
-    
+    // 异步放actions
     actions: {
         /**Ajax请求通过XMLHttpRequest对象发送请求，
             该对象有五个状态（readyState）：
@@ -54,7 +60,7 @@ export default {
         login(context, data) {
             
             $.ajax({
-                url: "http://127.0.0.1:3000/user/token/",
+                url: "http://127.0.0.1:1118/user/token/",
                 type: "post",
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify({
@@ -63,11 +69,13 @@ export default {
                 }),
                 success(resp) {
                     if (resp.message === "success") {
+                        localStorage.setItem("jwt_token", resp.token);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     } else {
                         data.error(resp);
                     }
+
                 },
                 error(resp) {
                     data.error(resp);
@@ -76,7 +84,7 @@ export default {
         },
         getinfo(context, data) {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/info/",
+                url: "http://127.0.0.1:1118/user/info/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,
@@ -100,6 +108,7 @@ export default {
         },
         
         logout(context) {
+            localStorage.removeItem("jwt_token")
             context.commit("logout");
         }
     },
