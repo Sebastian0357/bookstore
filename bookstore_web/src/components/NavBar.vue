@@ -28,7 +28,7 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'audio_index' }"
+            <router-link class="nav-link" :to="{ name: 'order_index' }"
               >我的订单</router-link
             >
           </li>

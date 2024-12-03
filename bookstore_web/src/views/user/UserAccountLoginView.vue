@@ -99,7 +99,7 @@ export default {
                         success() {
                             //跳转页面
                             router.push({ name: 'home' });
-                            console.log(store.state.user);
+                            console.log(store.state.user.is_admin);
                         }
                     })
                 },

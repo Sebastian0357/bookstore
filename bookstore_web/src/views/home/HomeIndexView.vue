@@ -2,13 +2,8 @@
   <div class="up">
     <div class="input-group flex-nowrap input-group-lg">
       <!-- <i class="icon-search"></i> -->
-      <input
-        type="text"
-        class="form-control rounded-pill"
-        placeholder="搜索"
-        aria-label="search"
-        aria-describedby="addon-wrapping"
-      />
+      <input type="text" class="form-control rounded-pill" placeholder="搜索" aria-label="search"
+        aria-describedby="addon-wrapping" />
     </div>
     <div class="container">
       <div class="row justify-content-md-center">
@@ -28,76 +23,93 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-4 g-4 cardcontainer">
-      <div class="col">
-        <div class="card h-100">
+      <div class="col recommend" v-for="data in tableData" :key="data">
+        <div class="card h-100 card1">
           <div class="bookimg">
-            <img
-              src="@/assets/images/我与地坛.png"
-              class="card-img-top"
-              alt="..."
-            />
+            <img :src=data.img class="card-img-top" alt="..." />
+            <div></div>
           </div>
           <div class="card-body">
-            <h5 class="card-title">我与地坛</h5>
-            <p class="card-text">史铁生</p>
-            <small class="text-muted">大家都在读</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="bookimg">
-            <img
-              src="@/assets/images/t6_674048.png"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">邓小平时代</h5>
-            <p class="card-text">傅高义</p>
-            <small class="text-muted">大家都在读</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="bookimg">
-            <img
-              src="@/assets/images/t6_834464.png"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">或者</h5>
-            <p class="card-text">余华</p>
-            <small class="text-muted">大家都在读</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="bookimg">
-            <img
-              src="@/assets/images/t6_546339.png"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">追风筝的人</h5>
-            <p class="card-text">卡勒德·胡塞尼</p>
+            <h5 class="card-title" prop="bookname">{{ data.bookname }}</h5>
+            <p class="card-text">{{ data.author }}</p>
             <small class="text-muted">大家都在读</small>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 cardcontainer">
+      <div class="col" v-for="colIndex in 4" :key="colIndex">
+        <div class="card">
+          <h5 class="card-title">热度榜</h5>
+          <ul class="list-group list-group-horizontal" v-for="(data, index) in tableData" :key="data">
+            <a class="list-group-item list-group-item-action" v-if="index * 2 < tableData.length">
+              <img src="@/assets/images/t6_546339.png" class="listimg card-img-top" alt="..." />
+              {{ tableData[index * 2].bookname }}
+              <div>
+
+              </div>
+            </a>
+            <a class="list-group-item list-group-item-action" v-if="index * 2 + 1 < tableData.length">
+              <img src="@/assets/images/t6_546339.png" class="listimg card-img-top" alt="..." />
+              {{ tableData[index * 2 + 1].bookname }}
+              <div>
+
+              </div>
+            </a>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
-  <script>
+<script>
+import axios from 'axios';
+const state = {     // 全局管理的数据存储
+  token: localStorage.getItem('jwt_token') ? localStorage.getItem('jwt_token') : '',   // token
+};
 export default {
   components: {},
+
+  data() {
+    return {
+      tableData: [],
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
+      centerDialogVisible: false,
+      inDialogVisible: false,
+      innerVisible: false,
+    }
+  },
+  methods: {
+    loadPost() {
+      axios.post('http://localhost:1118/bookinfo/listPage', {}, {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
+      }).then(res => res.data).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+          this.tableData = res.data
+          this.total = res.total
+        } else {
+          alert('获取数据失败')
+        }
+
+      })
+    },
+  },
+  beforeMount() {
+    this.loadPost()
+
+  }
+
+
+
 };
 </script>
 
@@ -105,14 +117,17 @@ export default {
 .up {
   background-color: rgb(237, 238, 240);
 }
+
 .mid {
   background-color: rgb(244, 245, 247);
 }
+
 div.input-group {
   width: 50%;
   margin: 2rem auto;
   margin-bottom: 1rem;
 }
+
 .refresh {
   padding-left: 1rem;
   width: 75%;
@@ -120,18 +135,22 @@ div.input-group {
   padding-top: 3rem;
   text-align: left;
 }
+
 div.d-inline {
   font-size: larger;
 }
+
 a.d-inline {
   text-decoration: none;
   color: black;
 }
+
 .hot-tag {
   margin-left: 1rem;
   padding: 8px;
   font-size: small;
 }
+
 .serach-tag {
   margin-left: 1rem;
   background-color: rgb(229, 230, 232);
@@ -142,41 +161,64 @@ a.d-inline {
   border-radius: 500px;
   text-align: center;
 }
+
 div.mid {
   margin-top: 4rem;
 }
+
 div.cardcontainer {
   width: 75%;
   margin: 0 auto;
 }
+
 div.card {
   padding-bottom: 3rem;
+  border-radius: 15px;
+  border-style: none;
 }
+
 .card-title {
   text-align: center;
 }
+
 div.bookimg {
   width: 35%;
   margin: auto;
   margin-top: 2rem;
 }
+
+.card-img-list {
+  width: 80%;
+  margin: auto;
+  margin-left: 1em;
+  display: flex;
+}
+
 .card-text {
   text-align: center;
 }
+
 .text-muted {
   display: flex;
-  justify-content: center; /* 水平居中 */
+  justify-content: center;
+  /* 水平居中 */
 }
+
 div.col {
   margin-top: 0;
   padding: 15px;
   transition: transform 0.3s ease-in-out;
 }
-div.card {
-  border-radius: 15px;
-  border-style: none;
-}
-div.col:hover {
+
+div.recommend:hover {
   transform: scale(1.06);
+}
+
+a.list-group-item {
+  width: 50%;
+}
+
+.listimg {
+  width: 25%;
 }
 </style>

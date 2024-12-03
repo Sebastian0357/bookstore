@@ -1,4 +1,4 @@
-package com.hotel.common;
+package com.bookstore.backend.config;
 
 import lombok.Data;
 

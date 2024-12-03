@@ -1,4 +1,4 @@
-import AudioBookIndexView from '@/views/audio/AudioBookIndexView.vue'
+import OrderBookIndexView from '@/views/order/OrderBookIndexView.vue'
 import BookShelfIndexView from '@/views/bookshelf/BookShelfIndexView.vue'
 import NotFoundView from '@/views/error/NotFoundView.vue'
 import HomeIndexView from '@/views/home/HomeIndexView.vue'
@@ -7,7 +7,6 @@ import UserAccountRegisterView from '@/views/user/UserAccountRegisterView.vue'
 import UserIndexView from '@/views/user/UserIndexView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/index'
-import GoodsManage from '@/views/goods/GoodsManage.vue'
 
 const routes = [
   {
@@ -32,9 +31,9 @@ const routes = [
     }
   },
   {
-    path: "/audio/",
-    name: "audio_index",
-    component: AudioBookIndexView,
+    path: "/order/",
+    name: "order_index",
+    component: OrderBookIndexView,
     meta: {
       requestAuth: true,
     }
@@ -55,16 +54,10 @@ const routes = [
       requestAuth: true,
     }
   },
-
   {
     path: "/user/register/",
     name: "user_register",
     component: UserAccountRegisterView,
-  },
-  {
-    path: "/GoodsManage/",
-    name: "good_manage",
-    component: GoodsManage,
   },
   {
     path: "/error/",
