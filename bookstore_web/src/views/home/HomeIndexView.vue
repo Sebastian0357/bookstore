@@ -87,7 +87,10 @@ export default {
   },
   methods: {
     loadPost() {
-      axios.post('http://localhost:1118/bookinfo/listPage', {}, {
+      axios.post('http://localhost:1118/bookinfo/listPage', {
+        pageSize: 4,
+        pageNum: 1
+      }, {
         headers: {
           Authorization: "Bearer " + state.token,
         },

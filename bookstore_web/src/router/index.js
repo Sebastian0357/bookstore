@@ -7,6 +7,7 @@ import UserAccountRegisterView from '@/views/user/UserAccountRegisterView.vue'
 import UserIndexView from '@/views/user/UserIndexView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/index'
+import BookDetailView from '@/views/book/BookDetailView.vue'
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
     path: "/user/register/",
     name: "user_register",
     component: UserAccountRegisterView,
+  },
+  {
+    path: "/book/",
+    name: "book",
+    component: BookDetailView,
   },
   {
     path: "/error/",
