@@ -2,6 +2,7 @@ package com.bookstore.backend.service.book;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Book;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @Date 2024/12/1 19:05
  * @Version V1.0
  **/
-public interface BookService {
+public interface BookService  extends IService<Book> {
     IPage pageCC(IPage<Book> page, Wrapper wrapper);
 
     List<Book> getBookList();

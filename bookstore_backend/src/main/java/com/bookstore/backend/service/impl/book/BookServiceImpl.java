@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Book;
 import com.bookstore.backend.mapper.BookMapper;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements BookService {
     @Autowired
     private BookMapper bookMapper;
 
