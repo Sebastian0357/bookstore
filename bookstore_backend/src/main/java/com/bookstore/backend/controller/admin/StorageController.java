@@ -1,14 +1,14 @@
-package com.hotel.controller;
+package com.bookstore.backend.controller.admin;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hotel.common.QueryPageParam;
-import com.hotel.common.Result;
-import com.hotel.entity.Storage;
-import com.hotel.service.StorageService;
+import com.bookstore.backend.config.QueryPageParam;
+import com.bookstore.backend.config.Result;
+import com.bookstore.backend.entity.Storage;
+import com.bookstore.backend.service.admin.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

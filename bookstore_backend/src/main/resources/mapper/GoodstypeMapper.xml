@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hotel.mapper.GoodstypeMapper">
+<mapper namespace="com.bookstore.backend.mapper.GoodstypeMapper">
 
-    <select id="pageCC" resultType="com.hotel.entity.Goodstype">
+    <select id="pageCC" resultType="com.bookstore.backend.entity.Goodstype">
         select * from Goodstype ${ew.customSqlSegment}
     </select>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hotel.entity.Goodstype">
+    <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Goodstype">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="remark" property="remark" />

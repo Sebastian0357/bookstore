@@ -1,9 +1,9 @@
-package com.hotel.service.Impl;
+package com.bookstore.backend.service.impl.admin;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hotel.entity.Menu;
-import com.hotel.mapper.MenuMapper;
-import com.hotel.service.MenuService;
+import com.bookstore.backend.entity.Menu;
+import com.bookstore.backend.mapper.MenuMapper;
+import com.bookstore.backend.service.admin.MenuService;
 import org.springframework.stereotype.Service;
 
 /**

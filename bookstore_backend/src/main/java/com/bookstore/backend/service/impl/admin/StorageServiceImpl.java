@@ -1,11 +1,11 @@
-package com.hotel.service.Impl;
+package com.bookstore.backend.service.impl.admin;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hotel.entity.Storage;
-import com.hotel.mapper.StorageMapper;
-import com.hotel.service.StorageService;
+import com.bookstore.backend.entity.Storage;
+import com.bookstore.backend.mapper.StorageMapper;
+import com.bookstore.backend.service.admin.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

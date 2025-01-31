@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hotel.mapper.RecordMapper">
+<mapper namespace="com.bookstore.backend.mapper.RecordMapper">
 
 <!--    <select id="pageCC" resultType="com.hotelel.entity.Record">-->
 <!--&#45;&#45;         select a.*,b.name goodsname,c.name storagename,d.name goodstypename,-->
@@ -13,7 +13,7 @@
 <!--    </select>-->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hotel.entity.Record">
+    <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Record">
         <id column="id" property="id" />
         <result column="stotagename" property="stotagename" />
         <result column="username" property="username" />
@@ -22,7 +22,7 @@
         <result column="remark" property="remark" />
     </resultMap>
 
-    <select id="pageC" resultType="com.hotel.entity.Record">
+    <select id="pageC" resultType="com.bookstore.backend.entity.Record">
         select * from record
     </select>
     <!-- 通用查询结果列 -->

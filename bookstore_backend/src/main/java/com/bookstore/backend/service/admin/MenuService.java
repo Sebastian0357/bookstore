@@ -1,7 +1,7 @@
-package com.hotel.service;
+package com.bookstore.backend.service.admin;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hotel.entity.Menu;
+import com.bookstore.backend.entity.Menu;
 
 
 public interface MenuService extends IService<Menu> {

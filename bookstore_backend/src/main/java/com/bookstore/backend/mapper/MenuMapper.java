@@ -1,7 +1,7 @@
-package com.hotel.mapper;
+package com.bookstore.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hotel.entity.Menu;
+import com.bookstore.backend.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

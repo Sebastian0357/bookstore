@@ -19,7 +19,7 @@
 
     <div class="refresh">
       <div class="d-inline p-2">大家都在看</div>
-      <a href="" class="d-inline p-2">换一批</a>
+      <a href="" @click.prevent="next()" class="d-inline p-2">换一批</a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-4 g-4 cardcontainer">
@@ -41,17 +41,21 @@
     <div class="row row-cols-1 row-cols-md-2 g-4 cardcontainer">
       <div class="col" v-for="colIndex in 4" :key="colIndex">
         <div class="card">
-          <h5 class="card-title">热度榜</h5>
-          <ul class="list-group list-group-horizontal" v-for="(data, index) in tableData" :key="data">
+          <h5 class="card-title" v-if="colIndex == 1">热度榜</h5>
+          <h5 class="card-title" v-else-if="colIndex == 2">2</h5>
+          <h5 class="card-title" v-else-if="colIndex == 3">3</h5>
+          <h5 class="card-title" v-else-if="colIndex == 4">4</h5>
+
+          <ul class="list-group list-group-horizontal" v-for="(data1, index) in tableData" :key="data1">
             <a class="list-group-item list-group-item-action" v-if="index * 2 < tableData.length">
-              <img src="@/assets/images/t6_546339.png" class="listimg card-img-top" alt="..." />
+              <img :src=data1.img class="listimg card-img-top" alt="..." />
               {{ tableData[index * 2].bookname }}
               <div>
 
               </div>
             </a>
             <a class="list-group-item list-group-item-action" v-if="index * 2 + 1 < tableData.length">
-              <img src="@/assets/images/t6_546339.png" class="listimg card-img-top" alt="..." />
+              <img :src=data1.img class="listimg card-img-top" alt="..." />
               {{ tableData[index * 2 + 1].bookname }}
               <div>
 
@@ -89,7 +93,7 @@ export default {
     loadPost() {
       axios.post('http://localhost:1118/bookinfo/listPage', {
         pageSize: 4,
-        pageNum: 1
+        pageNum: (this.pageNum % (this.total / 4))
       }, {
         headers: {
           Authorization: "Bearer " + state.token,
@@ -105,11 +109,15 @@ export default {
 
       })
     },
+    next() {
+      this.pageNum = this.pageNum + 1, 
+      this.loadPost()
+    },
   },
   beforeMount() {
     this.loadPost()
-
   }
+  
 
 
 

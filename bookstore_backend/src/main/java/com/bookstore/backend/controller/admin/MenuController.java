@@ -1,9 +1,9 @@
-package com.hotel.controller;
+package com.bookstore.backend.controller.admin;
 
 
-import com.hotel.common.Result;
-import com.hotel.entity.Menu;
-import com.hotel.service.MenuService;
+import com.bookstore.backend.config.Result;
+import com.bookstore.backend.entity.Menu;
+import com.bookstore.backend.service.admin.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

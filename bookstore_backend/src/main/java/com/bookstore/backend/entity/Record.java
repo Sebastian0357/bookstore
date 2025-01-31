@@ -1,4 +1,4 @@
-package com.hotel.entity;
+package com.bookstore.backend.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
