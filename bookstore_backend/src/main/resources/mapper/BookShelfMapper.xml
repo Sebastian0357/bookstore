@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookstore.backend.mapper.BookMapper">
+
+    <!-- 分页查询 -->
+    <select id="pageCC" resultType="com.bookstore.backend.entity.Book">
+        select *
+        from book ${ew.customSqlSegment}
+    </select>
+
+    <!-- 查询热度榜（按热度排序，返回前N条） -->
+    <select id="getHotRank" resultType="com.bookstore.backend.entity.Book">
+        SELECT * FROM book
+        ORDER BY popularity DESC
+        <if test="limit != null">
+            LIMIT #{limit}  <!-- 动态 LIMIT -->
+        </if>
+    </select>
+
+    <!-- 查询新书榜（按出版日期排序，返回前N条） -->
+    <select id="getNewBookRank" resultType="com.bookstore.backend.entity.Book">
+        SELECT * FROM book
+        ORDER BY pressdate DESC
+        <if test="limit != null">
+            LIMIT #{limit}  <!-- 动态 LIMIT -->
+        </if>
+    </select>
+
+    <!-- 查询畅销榜（按销量排序，返回前N条） -->
+    <select id="getBestSellerRank" resultType="com.bookstore.backend.entity.Book">
+        SELECT * FROM book
+        ORDER BY sales DESC
+        <if test="limit != null">
+            LIMIT #{limit}  <!-- 动态 LIMIT -->
+        </if>
+    </select>
+
+    <!-- 查询评分榜（按评分排序，返回前N条） -->
+    <select id="getRatingRank" resultType="com.bookstore.backend.entity.Book">
+        SELECT * FROM book
+        ORDER BY rating DESC
+        <if test="limit != null">
+            LIMIT #{limit}  <!-- 动态 LIMIT -->
+        </if>
+    </select>
+
+    <!-- 查询评分榜（按评分排序，返回前N条） -->
+    <select id="hotSearch" resultType="com.bookstore.backend.entity.Book">
+        SELECT * FROM book
+        ORDER BY search DESC
+        <if test="limit != null">
+            LIMIT #{limit}  <!-- 动态 LIMIT -->
+        </if>
+    </select>
+
+    <!-- 查询书籍详情 -->
+    <select id="getBookById" parameterType="int" resultType="com.bookstore.backend.entity.Book">
+        SELECT *
+        FROM book
+        WHERE id = #{id}
+    </select>
+
+    <!-- 搜索书籍 -->
+    <select id="searchBooks" resultType="com.bookstore.backend.entity.Book">
+        SELECT *
+        FROM book
+        WHERE bookname LIKE CONCAT('%', #{query}, '%')
+           OR author LIKE CONCAT('%', #{query}, '%')
+    </select>
+
+    <!-- 搜索书籍 -->
+    <select id="increaseSearchCount" resultType="com.bookstore.backend.entity.Book">
+        UPDATE book
+        SET book.search = book.search + 1
+        WHERE book.id = #{id}
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Book">
+        <id column="id" property="id"/>
+        <result column="bookname" property="bookname"/>
+        <result column="type" property="type"/>
+        <result column="author" property="author"/>
+        <result column="press" property="press"/>
+        <result column="pressdate" property="pressdate"/>
+        <result column="price" property="price"/>
+        <result column="count" property="count"/>
+        <result column="img" property="img"/>
+        <result column="popularity" property="popularity"/>
+        <result column="sales" property="sales"/>
+        <result column="rating" property="rating"/>
+        <result column="search" property="search"/>
+        <result column="description" property="description"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , bookname, type, press, pressdate, price, count, img, popularity, sales, rating, search, description
+    </sql>
+
+</mapper>
