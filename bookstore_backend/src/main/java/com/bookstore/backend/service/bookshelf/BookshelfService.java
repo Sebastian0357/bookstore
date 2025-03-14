@@ -1,7 +1,10 @@
 package com.bookstore.backend.service.bookshelf;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bookstore.backend.entity.BookShelf;
+import com.bookstore.backend.entity.Book;
+import com.bookstore.backend.entity.Bookshelf;
+
+import java.util.List;
 
 /**
  * @ClassName BookShelfService
@@ -9,6 +12,9 @@ import com.bookstore.backend.entity.BookShelf;
  * @Date 2025/2/22 22:26
  * @Version V1.0
  **/
-public interface BookShelfService extends IService<BookShelf>  {
-    void addToBookshelf();
+public interface BookshelfService extends IService<Bookshelf> {
+
+    boolean addBookToShelf(Bookshelf bookshelf);
+
+    List<Book> getUserBookshelf(Integer userId);
 }

@@ -5,7 +5,7 @@ import com.bookstore.backend.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- *  Mapper 接口
+ * Mapper 接口
  */
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {

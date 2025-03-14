@@ -61,6 +61,7 @@ public class JwtUtil {
         SecretKey secretKey = generalKey();
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .setAllowedClockSkewSeconds(300)
                 .build()
                 .parseClaimsJws(jwt)
                 .getBody();

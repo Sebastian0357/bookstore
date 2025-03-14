@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Record对象", description="")
+@ApiModel(value = "Record对象", description = "")
 public class Record implements Serializable {
 
     private static final long serialVersionUID = 1L;

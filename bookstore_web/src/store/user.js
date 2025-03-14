@@ -9,7 +9,7 @@ export default {
         token: "",
         is_login: false,
         pulling_info: true,  // 是否正在从云端拉取信息
-        is_admin: false, // 是否为管理员
+        roleid: "",
     },
     getters: {
     },
@@ -20,13 +20,12 @@ export default {
             state.username = user.username;
             state.photo = user.photo;
             state.is_login = user.is_login;
-            if(user.is_admin == "1"){
-                state.is_admin = true;
-            }
+            state.roleid = user.roleid;
             
         },
         updateToken(state, token) {
             state.token = token;
+
         },
         logout(state) {
             state.id = "";
@@ -34,13 +33,11 @@ export default {
             state.photo = "";
             state.token = "";
             state.is_login = false;
+            state.roleid = "";
         },
         updatePullingInfo(state, pulling_info) {
             state.pulling_info = pulling_info;
         },
-        isAdmin(state){
-            state.is_admin = true;
-        }
 
     },
     // 异步放actions
@@ -78,8 +75,10 @@ export default {
                 success(resp) {
                     if (resp.message === "success") {
                         localStorage.setItem("jwt_token", resp.token);
+                        localStorage.setItem("roleid", resp.roleId);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
+                        console.log(resp)
                     } else {
                         data.error(resp);
                     }

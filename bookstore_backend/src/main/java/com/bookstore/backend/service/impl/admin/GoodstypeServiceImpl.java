@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *  服务实现类
+ * 服务实现类
  */
 @Service
 public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype> implements GoodstypeService {
@@ -20,6 +20,6 @@ public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype
 
     @Override
     public IPage pageCC(IPage<Goodstype> page, Wrapper wrapper) {
-        return goodstypeMapper.pageCC(page,wrapper);
+        return goodstypeMapper.pageCC(page, wrapper);
     }
 }

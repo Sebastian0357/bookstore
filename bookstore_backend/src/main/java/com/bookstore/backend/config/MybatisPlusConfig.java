@@ -8,11 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * MybatisPlus分页拦截器
-* @ClassName MybatisPlusConfig.java
-* @Author WuTong w13694105330@163.com
-* @Date 2024/6/20 17:44
-* @Version V1.0
-**/
+ *
+ * @ClassName MybatisPlusConfig.java
+ * @Author WuTong w13694105330@163.com
+ * @Date 2024/6/20 17:44
+ * @Version V1.0
+ **/
 @Configuration
 public class MybatisPlusConfig {
     @Bean

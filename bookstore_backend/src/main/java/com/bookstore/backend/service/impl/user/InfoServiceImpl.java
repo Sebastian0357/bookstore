@@ -1,8 +1,8 @@
 package com.bookstore.backend.service.impl.user;
 
 import com.bookstore.backend.entity.User;
-import com.bookstore.backend.service.user.InfoService;
 import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
+import com.bookstore.backend.service.user.InfoService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class InfoServiceImpl implements InfoService {
         map.put("id", user.getId().toString());
         map.put("username", user.getUsername());
         map.put("photo", user.getPhoto());
-        map.put("is_admin", "0");
+        map.put("roleid", user.getRole());
 
         return map;
     }

@@ -18,7 +18,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">密码</label>
-                        <input v-model="password" type="password" class="form-control" id="password" placeholder="请输入密码">
+                        <input v-model="password" type="password" class="form-control" id="password"
+                            placeholder="请输入密码">
                     </div>
                     <!-- vue中，使用{{}}双花括号，在html标签的“内容区域”中表现数据，这个技术称为插值表达式。 -->
                     <div class="message">{{ message }}</div>
@@ -69,11 +70,18 @@ export default {
 
         // jwt_token未过期 保持登录状态
         const jwt_token = localStorage.getItem("jwt_token");
+        const roleid = localStorage.getItem("roleid");
         if (jwt_token) {
             store.commit("updateToken", jwt_token);
             store.dispatch("getinfo", {
                 success() {
-                    router.push({ name: "home" });
+                    if(roleid === "1"){
+                        router.push({ name: "admin_home" });
+                    }
+                    else{
+                        router.push({ name: "home" });
+                    }
+                    
                     store.commit("updatePullingInfo", false);
                 },
                 error() {
@@ -96,10 +104,12 @@ export default {
                 password: password.value,
                 success() {
                     store.dispatch("getinfo", {
-                        success() {
-                            //跳转页面
-                            router.push({ name: 'home' });
-                            console.log(store.state.user.is_admin);
+                        success(Response) {
+                            if (Response.roleid == 1) {
+                                router.push({ name: 'admin_home' });
+                            } else {
+                                router.push({ name: 'home' });
+                            }
                         }
                     })
                 },
@@ -124,6 +134,7 @@ export default {
 button {
     width: 100%;
 }
+
 div.message {
     color: red;
 }

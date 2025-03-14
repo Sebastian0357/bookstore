@@ -8,6 +8,8 @@ import com.bookstore.backend.entity.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @ClassName BookMapper
  * @Author WuTong w13694105330@163.com
@@ -16,5 +18,47 @@ import org.apache.ibatis.annotations.Param;
  **/
 @Mapper
 public interface BookMapper extends BaseMapper<Book> {
+
+    // 分页查询：根据条件查询
     IPage pageCC(IPage<Book> page, @Param(Constants.WRAPPER) Wrapper wrapper);
+
+    /**
+     * 获取热度榜（按热度排序，返回前N条）
+     */
+    List<Book> getHotRank(@Param("limit") Integer limit);
+
+    /**
+     * 获取新书榜（按出版日期排序，返回前N条）
+     */
+    List<Book> getNewBookRank(@Param("limit") Integer limit);
+
+    /**
+     * 获取畅销榜（按销量排序，返回前N条）
+     */
+    List<Book> getBestSellerRank(@Param("limit") Integer limit);
+
+    /**
+     * 获取评分榜（按评分排序，返回前N条）
+     */
+    List<Book> getRatingRank(@Param("limit") Integer limit);
+
+    /**
+     * 根据id获取书籍详细信息
+     */
+    Book getBookById(@Param("id") Integer id);
+
+    /**
+     * 搜索书籍
+     */
+    List<Book> searchBooks(String query);
+
+    /**
+     * 最近热搜
+     */
+    List<Book> hotSearch(@Param("limit") Integer limit);
+
+    /**
+     * 增加搜索次数
+     */
+    Integer increaseSearchCount(@Param("id") Integer id);
 }

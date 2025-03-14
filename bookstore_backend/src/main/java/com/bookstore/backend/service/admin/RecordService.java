@@ -8,6 +8,7 @@ import com.bookstore.backend.entity.Record;
 
 public interface RecordService extends IService<Record> {
     IPage pageC(IPage<Record> page);
+
     IPage pageCC(IPage<Record> page, Wrapper wrapper);
 
 }

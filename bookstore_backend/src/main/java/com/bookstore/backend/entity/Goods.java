@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Goods对象", description="")
+@ApiModel(value = "Goods对象", description = "")
 public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -24,4 +24,5 @@ public class User {
     private Date birthday;
     private String email;
     private String photo;
+    private String role;
 }

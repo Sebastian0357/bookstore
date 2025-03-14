@@ -18,17 +18,20 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link active" :to="{ name: 'home' }"
+            <router-link class="nav-link" :to="{ name: 'home' }"
+            active-class="active"
               >首页</router-link
             >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'shelf_index' }"
+            active-class="active"
               >个人书架</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'order_index' }"
+            <router-link class="nav-link" :to="{ name: 'admin_home' }"
+            active-class="active"
               >我的订单</router-link
             >
           </li>
@@ -51,7 +54,7 @@
                 <router-link
                   class="dropdown-item"
                   :to="{ name: 'user_index' }"
-                  >我的Bot</router-link
+                  >个人中心</router-link
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>

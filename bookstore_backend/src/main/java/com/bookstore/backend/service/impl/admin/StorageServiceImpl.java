@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *  服务实现类
+ * 服务实现类
  */
 @Service
 public class StorageServiceImpl extends ServiceImpl<StorageMapper, Storage> implements StorageService {
@@ -19,6 +19,6 @@ public class StorageServiceImpl extends ServiceImpl<StorageMapper, Storage> impl
 
     @Override
     public IPage pageCC(IPage<Storage> page, Wrapper wrapper) {
-        return storageMapper.pageCC(page,wrapper);
+        return storageMapper.pageCC(page, wrapper);
     }
 }

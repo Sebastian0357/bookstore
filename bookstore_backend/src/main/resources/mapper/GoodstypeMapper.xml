@@ -3,19 +3,21 @@
 <mapper namespace="com.bookstore.backend.mapper.GoodstypeMapper">
 
     <select id="pageCC" resultType="com.bookstore.backend.entity.Goodstype">
-        select * from Goodstype ${ew.customSqlSegment}
+        select *
+        from Goodstype ${ew.customSqlSegment}
     </select>
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Goodstype">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="remark" property="remark" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, remark
+        id
+        , name, remark
     </sql>
 
 </mapper>

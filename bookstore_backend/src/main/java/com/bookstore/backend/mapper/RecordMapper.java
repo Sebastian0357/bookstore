@@ -12,5 +12,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface RecordMapper extends BaseMapper<Record> {
     IPage pageC(IPage<Record> page);
+
     IPage pageCC(IPage<Record> page, @Param(Constants.WRAPPER) Wrapper wrapper);
 }

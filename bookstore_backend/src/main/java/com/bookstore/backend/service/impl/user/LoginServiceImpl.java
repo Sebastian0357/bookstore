@@ -2,8 +2,8 @@ package com.bookstore.backend.service.impl.user;
 
 
 import com.bookstore.backend.entity.User;
-import com.bookstore.backend.service.user.LoginService;
 import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
+import com.bookstore.backend.service.user.LoginService;
 import com.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,6 +41,8 @@ public class LoginServiceImpl implements LoginService {
         Map<String, String> map = new HashMap<>();
         map.put("message", "success");
         map.put("token", jwt);
+        map.put("username", user.getUsername());
+        map.put("roleId", user.getRole());
 
         return map;
     }

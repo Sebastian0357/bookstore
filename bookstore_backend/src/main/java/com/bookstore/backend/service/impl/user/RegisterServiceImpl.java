@@ -25,6 +25,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public Map<String, String> register(String username, String password, String confirmedPassword) {
 
@@ -60,7 +61,7 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
-        if(!password.equals(confirmedPassword)){
+        if (!password.equals(confirmedPassword)) {
             map.put("message", "两次输入的密码不一致");
             return map;
         }
@@ -68,14 +69,14 @@ public class RegisterServiceImpl implements RegisterService {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
         List<User> users = userMapper.selectList(queryWrapper);
-        if(!users.isEmpty()){
+        if (!users.isEmpty()) {
             map.put("message", "用户名已存在");
             return map;
         }
 
         String encodePassowrd = passwordEncoder.encode(password);
         String photo = "https://cdn.acwing.com/media/user/profile/photo/272294_lg_6c5848129b.jpg";
-        User user = new User(null, username, encodePassowrd, null, null,null,null, photo);
+        User user = new User(null, username, encodePassowrd, null, null, null, null, photo, null);
         userMapper.insert(user);
 
         map.put("message", "register success");

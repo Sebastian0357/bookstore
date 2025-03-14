@@ -1,19 +1,41 @@
 <template>
-  <NavBar v-if="!$store.state.user.is_admin"></NavBar>
-  <AdminHeader v-if="$store.state.user.is_admin"></AdminHeader>
+  <NavBar></NavBar>
+  <!-- / v-if="showNavBar" -->
   <router-view />
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
-import AdminHeader from "./components/AdminHeader.vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap"
 export default {
   components: {
     NavBar,
-    AdminHeader
-  }
+  },
+  data() {
+    return {
+      showNavBar: false
+    };
+  },
+  created() {
+    this.checkRole();
+  },
+  watch: {
+    // 监听路由变化和登录状态
+    $route() {
+      this.checkRole();
+    },
+    'store.state.user.is_login'(newVal) {
+      if (!newVal) this.checkRole(); // 退出后刷新导航栏状态
+    },
+  },
+  methods: {
+    checkRole() {
+      const roleid = localStorage.getItem('roleid');
+      this.showNavBar = roleid !== "1"; // roleid 为 "1" 隐藏 NavBar
+    },
+  },
+
 };
 </script>
 <style>

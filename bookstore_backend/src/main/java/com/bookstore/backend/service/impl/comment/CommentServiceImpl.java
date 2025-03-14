@@ -1,8 +1,11 @@
-package com.bookstore.backend.service.comment;
+package com.bookstore.backend.service.impl.comment;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.bookstore.backend.entity.Book;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bookstore.backend.entity.Comment;
+import com.bookstore.backend.mapper.CommentMapper;
+import com.bookstore.backend.service.comment.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +15,13 @@ import java.util.List;
  * @Date 2025/2/11 23:09
  * @Version V1.0
  **/
-public interface CommentService extends IService<Comment> {
-    public List<Comment> getCommentsByBookId(Integer bookId);
+@Service
+public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Override
+    public List<Comment> getCommentsByBookId(Integer bookId) {
+        return commentMapper.getCommentsByBookId(bookId);
+    }
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="storage对象", description="")
+@ApiModel(value = "storage对象", description = "")
 public class Storage implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class Storage implements Serializable {
 
     @ApiModelProperty(value = "状态")
     private Integer status;
-    private String  author;
+    private String author;
 
     private Integer count;
 

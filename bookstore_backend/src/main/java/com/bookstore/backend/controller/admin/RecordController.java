@@ -24,27 +24,27 @@ public class RecordController {
     private RecordService recordService;
 
     @PostMapping("/list")
-    public Result list(@RequestBody QueryPageParam query){
+    public Result list(@RequestBody QueryPageParam query) {
         Page page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
         List list = recordService.list();
         QueryWrapper<Record> queryWrapper = new QueryWrapper();
-        IPage result = recordService.pageCC(page,queryWrapper);
-        return Result.success(result.getRecords(),result.getTotal());
+        IPage result = recordService.pageCC(page, queryWrapper);
+        return Result.success(result.getRecords(), result.getTotal());
 //        return Result.success(list);
     }
 
     @PostMapping("/listPageC1")
-    public Result listPageC1(@RequestBody QueryPageParam query){
+    public Result listPageC1(@RequestBody QueryPageParam query) {
         Page<Record> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
         IPage result = recordService.pageC(page);
-        System.out.println("total=>"+result.getTotal());
+        System.out.println("total=>" + result.getTotal());
 
-        return Result.success(result.getRecords(),result.getTotal());
+        return Result.success(result.getRecords(), result.getTotal());
 
     }
 

@@ -12,19 +12,19 @@ import java.io.IOException;
 @Configuration
 @Component
 @WebFilter(urlPatterns = {"/*"}, filterName = "csrfFilter")
-public class CorsConfig implements Filter{
+public class CorsConfig implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
         String origin = request.getHeader("Origin");
-        if(origin!=null) {
+        if (origin != null) {
             response.setHeader("Access-Control-Allow-Origin", origin);
         }
 
         String headers = request.getHeader("Access-Control-Request-Headers");
-        if(headers!=null) {
+        if (headers != null) {
             response.setHeader("Access-Control-Allow-Headers", headers);
             response.setHeader("Access-Control-Expose-Headers", headers);
         }

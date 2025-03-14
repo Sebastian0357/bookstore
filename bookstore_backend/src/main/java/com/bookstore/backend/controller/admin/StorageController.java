@@ -16,11 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *  前端控制器：房间管理模块
-* @ClassName StorageController.java
-* @Author WuTong w13694105330@163.com
-* @Date 2024/6/24
-**/
+ * 前端控制器：房间管理模块
+ *
+ * @ClassName StorageController.java
+ * @Author WuTong w13694105330@163.com
+ * @Date 2024/6/24
+ **/
 @RestController
 @RequestMapping("/storage")
 public class StorageController {
@@ -31,24 +32,24 @@ public class StorageController {
      * 新增房间
      */
     @PostMapping("/save")
-    public Result save(@RequestBody Storage storage){
-        return storageService.save(storage)?Result.success():Result.fail();
+    public Result save(@RequestBody Storage storage) {
+        return storageService.save(storage) ? Result.success() : Result.fail();
     }
-    
+
     /*
      * 更新房间
      */
     @PostMapping("/update")
-    public Result update(@RequestBody Storage storage){
-        return storageService.updateById(storage)?Result.success():Result.fail();
+    public Result update(@RequestBody Storage storage) {
+        return storageService.updateById(storage) ? Result.success() : Result.fail();
     }
-    
+
     /*
      * 删除房间
      */
     @GetMapping("/del")
-    public Result del(@RequestParam String id){
-        return storageService.removeById(id)?Result.success():Result.fail();
+    public Result del(@RequestParam String id) {
+        return storageService.removeById(id) ? Result.success() : Result.fail();
     }
 
 //    @GetMapping("/check")
@@ -60,7 +61,7 @@ public class StorageController {
      * 查询房间列表
      */
     @GetMapping("/list")
-    public Result list(){
+    public Result list() {
         List list = storageService.list();
         return Result.success(list);
     }
@@ -70,46 +71,46 @@ public class StorageController {
 
      */
     @PostMapping("/listPage")
-    public Result listPage(@RequestBody QueryPageParam query){
+    public Result listPage(@RequestBody QueryPageParam query) {
         HashMap param = query.getParam();
-        String name = (String)param.get("name");
+        String name = (String) param.get("name");
 
         Page<Storage> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
         LambdaQueryWrapper<Storage> queryWrapper = new LambdaQueryWrapper<>();
-        if(StringUtils.isNotBlank(name) && !"null".equals(name)){
-            queryWrapper.like(Storage::getName,name);
+        if (StringUtils.isNotBlank(name) && !"null".equals(name)) {
+            queryWrapper.like(Storage::getName, name);
         }
 
-        IPage result = storageService.pageCC(page,queryWrapper);
-        return Result.success(result.getRecords(),result.getTotal());
+        IPage result = storageService.pageCC(page, queryWrapper);
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
     @PostMapping("/listPageC1")
-    public Result listPageC1(@RequestBody QueryPageParam query){
+    public Result listPageC1(@RequestBody QueryPageParam query) {
         HashMap param = query.getParam();
-        String name = (String)param.get("name");
-        String id = (String)param.get("id");
+        String name = (String) param.get("name");
+        String id = (String) param.get("id");
 
         Page<Storage> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
         LambdaQueryWrapper<Storage> lambdaQueryWrapper = new LambdaQueryWrapper();
-        if(StringUtils.isNotBlank(name) && !"null".equals(name)){
-            lambdaQueryWrapper.like(Storage::getName,name);
+        if (StringUtils.isNotBlank(name) && !"null".equals(name)) {
+            lambdaQueryWrapper.like(Storage::getName, name);
         }
-        if(StringUtils.isNotBlank(id)){
-            lambdaQueryWrapper.eq(Storage::getId,id);
+        if (StringUtils.isNotBlank(id)) {
+            lambdaQueryWrapper.eq(Storage::getId, id);
         }
 
-        IPage result = storageService.pageCC(page,lambdaQueryWrapper);
+        IPage result = storageService.pageCC(page, lambdaQueryWrapper);
 
-        System.out.println("total=>"+result.getTotal());
+        System.out.println("total=>" + result.getTotal());
 
-        return Result.success(result.getRecords(),result.getTotal());
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
 }

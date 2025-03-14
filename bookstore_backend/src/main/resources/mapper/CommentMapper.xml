@@ -1,72 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bookstore.backend.mapper.BookMapper">
-
-    <!-- 分页查询 -->
-    <select id="pageCC" resultType="com.bookstore.backend.entity.Book">
-        select * from book ${ew.customSqlSegment}
+<mapper namespace="com.bookstore.backend.mapper.CommentMapper">
+    <!-- 查询书籍的所有评论，并且关联用户信息（用户名） -->
+    <select id="getCommentsByBookId" resultType="com.bookstore.backend.entity.Comment">
+        SELECT c.id, c.userid, u.username, c.bookid, c.comment, c.time
+        FROM comment c
+                 JOIN user u ON c.userid = u.id
+        WHERE c.bookid = #{bookId}
+        ORDER BY c.time DESC
     </select>
 
-    <!-- 查询热度榜（按热度排序，返回前N条） -->
-    <select id="getHotRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
-        ORDER BY popularity DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
-    </select>
-
-    <!-- 查询新书榜（按出版日期排序，返回前N条） -->
-    <select id="getNewBookRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
-        ORDER BY pressdate DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
-    </select>
-
-    <!-- 查询畅销榜（按销量排序，返回前N条） -->
-    <select id="getBestSellerRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
-        ORDER BY sales DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
-    </select>
-
-    <!-- 查询评分榜（按评分排序，返回前N条） -->
-    <select id="getRatingRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
-        ORDER BY rating DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
-    </select>
-
-    <!-- 查询书籍详情 -->
-    <select id="getBookById" parameterType="int" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book WHERE id = #{id}
-    </select>
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Book">
-        <id column="id" property="id" />
-        <result column="bookname" property="bookname" />
-        <result column="type" property="type" />
-        <result column="author" property="author" />
-        <result column="press" property="press" />
-        <result column="pressdate" property="pressdate" />
-        <result column="price" property="price" />
-        <result column="count" property="count" />
-        <result column="img" property="img" />
-        <result column="popularity" property="popularity" />
-        <result column="sales" property="sales" />
-        <result column="rating" property="rating" />
+    <!-- 结果映射，将数据库字段映射到 Comment 对象 -->
+    <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Comment">
+        <id property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="username" column="username"/>
+        <result property="bookId" column="bookId"/>
+        <result property="comment" column="comment"/>
+        <result property="time" column="time"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, bookname, type, press, pressdate, price, count, img, popularity, sales, rating
+        id
+        , userId, username, bookId, comment, time
     </sql>
-
 </mapper>
+

@@ -23,7 +23,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/goodstype")
-public class BooktypeController {
+public class GoodstypeController {
 
     @Autowired
     private GoodstypeService goodstypeService;

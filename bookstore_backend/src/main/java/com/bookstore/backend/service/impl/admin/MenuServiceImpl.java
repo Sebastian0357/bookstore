@@ -7,7 +7,7 @@ import com.bookstore.backend.service.admin.MenuService;
 import org.springframework.stereotype.Service;
 
 /**
- *  服务实现类
+ * 服务实现类
  */
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {

@@ -9,8 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- *
- *  Mapper 接口
+ * Mapper 接口
  */
 @Mapper
 public interface GoodstypeMapper extends BaseMapper<Goodstype> {

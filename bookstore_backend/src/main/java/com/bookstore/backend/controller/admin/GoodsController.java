@@ -7,20 +7,25 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bookstore.backend.config.QueryPageParam;
 import com.bookstore.backend.config.Result;
+import com.bookstore.backend.entity.Book;
 import com.bookstore.backend.entity.Goods;
 import com.bookstore.backend.service.admin.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
 /**
  * 前端控制器：物品管理
-* @ClassName GoodsController.java
-* @Author WuTong w13694105330@163.com
-* @Date 2024/6/20 17:46
-* @Version V1.0
-**/
+ *
+ * @ClassName GoodsController.java
+ * @Author WuTong w13694105330@163.com
+ * @Date 2024/6/20 17:46
+ * @Version V1.0
+ **/
 //@RestController 是一个组合注解，它结合了 @Controller 和 @ResponseBody 注解的功能
 @RestController
 @RequestMapping("/goods")
@@ -30,31 +35,31 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    /*
-     * 新增物品
-     * @RequestBody主要用来接收前端传递给后端的json字符串中的数据的
-     */
-    @PostMapping("/save")
-    public Result save(@RequestBody Goods goods) {
-        return goodsService.save(goods) ? Result.success() : Result.fail();
-    }
-
-    /*
-     * 更新物品
-     */
-    @PostMapping("/update")
-    public Result update(@RequestBody Goods goods) {
-        return goodsService.updateById(goods) ? Result.success() : Result.fail();
-    }
-
-    /*
-     * 删除物品
-     * @RequestParam用于将指定的请求参数赋值给方法中的形参。
-     */
-    @GetMapping("/del")
-    public Result del(@RequestParam String id) {
-        return goodsService.removeById(id) ? Result.success() : Result.fail();
-    }
+//    /*
+//     * 新增物品
+//     * @RequestBody主要用来接收前端传递给后端的json字符串中的数据的
+//     */
+//    @PostMapping("/save")
+//    public Result save(@RequestBody Goods goods) {
+//        return goodsService.save(Book) ? Result.success() : Result.fail();
+//    }
+//
+//    /*
+//     * 更新物品
+//     */
+//    @PostMapping("/update")
+//    public Result update(@RequestBody book Book) {
+//        return goodsService.updateById(Book) ? Result.success() : Result.fail();
+//    }
+//
+//    /*
+//     * 删除物品
+//     * @RequestParam用于将指定的请求参数赋值给方法中的形参。
+//     */
+//    @GetMapping("/del")
+//    public Result del(@RequestParam String id) {
+//        return goodsService.removeById(id) ? Result.success() : Result.fail();
+//    }
 
     /*
      * 模糊查询：根据输入查询物品并以分页的形式展示
@@ -67,7 +72,7 @@ public class GoodsController {
         String goodstype = (String) param.get("goodstype");
         String storage = (String) param.get("storage");
 
-        Page<Goods> page = new Page();
+        Page<Book> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 

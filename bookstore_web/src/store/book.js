@@ -9,7 +9,6 @@ export default {
         token: "",
         is_login: false,
         pulling_info: true,  // 是否正在从云端拉取信息
-        is_admin: false, // 是否为管理员
     },
     getters: {
     },
@@ -30,8 +29,11 @@ export default {
                 success(resp) {
                     if (resp.message === "success") {
                         localStorage.setItem("jwt_token", resp.token);
+                        // localStorage.setItem("username", resp.username);
+                        // localStorage.setItem("role", resp.role);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
+                        console.log(resp);
                     } else {
                         data.error(resp);
                     }
