@@ -1,5 +1,6 @@
 package com.bookstore.backend.service.impl.bookshelf;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bookstore.backend.entity.Book;
 import com.bookstore.backend.entity.Bookshelf;
@@ -30,5 +31,17 @@ public class BookshelfServiceImpl extends ServiceImpl<BookshelfMapper, Bookshelf
     @Override
     public List<Book> getUserBookshelf(Integer userId) {
         return bookshelfMapper.getBooksByUserId(userId);  // 查询用户书架
+    }
+
+    @Override
+    public boolean removeBooksFromShelf(List<Integer> bookIds, Integer userId) {
+        if (bookIds == null || bookIds.isEmpty() || userId == null) {
+            return false;
+        }
+
+        return this.remove(new QueryWrapper<Bookshelf>()
+                .in("bookid", bookIds)
+                .eq("userid", userId));
+
     }
 }

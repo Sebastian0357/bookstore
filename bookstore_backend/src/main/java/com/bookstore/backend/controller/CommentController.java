@@ -2,12 +2,10 @@ package com.bookstore.backend.controller;
 
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Comment;
+import com.bookstore.backend.mapper.CommentMapper;
 import com.bookstore.backend.service.comment.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +21,9 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
     @GetMapping("/book/{bookId}")
     public Result getCommentsByBookId(@PathVariable Integer bookId) {
         List<Comment> comments = commentService.getCommentsByBookId(bookId);
@@ -30,5 +31,15 @@ public class CommentController {
             return Result.success(comments);
         }
         return Result.fail();
+    }
+
+    @PostMapping("/add")
+    public Result addComment(@RequestBody Comment comment) {
+        try {
+            commentMapper.insert(comment);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail();
+        }
     }
 }

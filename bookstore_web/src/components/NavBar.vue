@@ -30,7 +30,7 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'admin_home' }"
+            <router-link class="nav-link" :to="{ name: 'order_index' }"
             active-class="active"
               >我的订单</router-link
             >
