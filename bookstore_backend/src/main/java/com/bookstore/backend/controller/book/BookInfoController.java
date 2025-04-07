@@ -2,6 +2,7 @@ package com.bookstore.backend.controller.book;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bookstore.backend.config.QueryPageParam;
 import com.bookstore.backend.config.Result;
@@ -33,7 +34,6 @@ public class BookInfoController {
 
         LambdaQueryWrapper<Book> queryWrapper = new LambdaQueryWrapper<>();
 
-
         IPage result = bookService.pageCC(page, queryWrapper);
 
         return Result.success(result.getRecords(), result.getTotal());
@@ -43,30 +43,38 @@ public class BookInfoController {
     @PostMapping("/hotRank")
     public Result getHotRank(@RequestBody QueryPageParam query) {
         // 假设 limit 是动态传入的参数
-        int limit = query.getPageSize();  // 你可以根据请求的参数来控制 limit
-        List<Book> hotRank = bookService.getHotRank(limit);
-        return Result.success(hotRank);
+        Page<Book> page = new Page();
+        page.setCurrent(query.getPageNum());
+        page.setSize(query.getPageSize());
+        IPage hotRank = bookService.getHotRank(page);
+        return Result.success(hotRank.getRecords());
     }
 
     @PostMapping("/newBookRank")
     public Result getNewBookRank(@RequestBody QueryPageParam query) {
-        int limit = query.getPageSize();
-        List<Book> newBookRank = bookService.getNewBookRank(limit);
-        return Result.success(newBookRank);
+        Page<Book> page = new Page();
+        page.setCurrent(query.getPageNum());
+        page.setSize(query.getPageSize());
+        IPage newBookRank = bookService.getNewBookRank(page);
+        return Result.success(newBookRank.getRecords());
     }
 
     @PostMapping("/bestSellerRank")
     public Result getBestSellerRank(@RequestBody QueryPageParam query) {
-        int limit = query.getPageSize();
-        List<Book> bestSellerRank = bookService.getBestSellerRank(limit);
-        return Result.success(bestSellerRank);
+        Page<Book> page = new Page();
+        page.setCurrent(query.getPageNum());
+        page.setSize(query.getPageSize());
+        IPage bestSellerRank = bookService.getBestSellerRank(page);
+        return Result.success(bestSellerRank.getRecords());
     }
 
     @PostMapping("/ratingRank")
     public Result getRatingRank(@RequestBody QueryPageParam query) {
-        int limit = query.getPageSize();
-        List<Book> ratingRank = bookService.getRatingRank(limit);
-        return Result.success(ratingRank);
+        Page<Book> page = new Page();
+        page.setCurrent(query.getPageNum());
+        page.setSize(query.getPageSize());
+        IPage ratingRank = bookService.getRatingRank(page);
+        return Result.success(ratingRank.getRecords());
     }
 
     @GetMapping("/{id}")
@@ -98,5 +106,41 @@ public class BookInfoController {
     public Result increaseSearchCount(@RequestBody Map<String, Object> params) {
         Integer bookId = (Integer) params.get("bookId");
         return Result.success(bookService.increaseSearchCount(bookId));
+    }
+
+    /*
+     * 新增
+     * @RequestBody主要用来接收前端传递给后端的json字符串中的数据的
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Book book) {
+        book.setRating(0);
+        book.setPopularity(0);
+        book.setSales(0);
+        book.setSearch(0);
+        if (!StringUtils.isNotBlank(book.getImg())) {
+            book.setImg("http://localhost:1118/static/image/noimg.png");
+        }
+        return bookService.save(book) ? Result.success() : Result.fail();
+    }
+
+    /*
+     * 更新物品
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody Book book) {
+        return bookService.updateById(book) ? Result.success() : Result.fail();
+    }
+
+    /*
+     * 删除
+     */
+    @PostMapping("/delete")
+    public Result delete(@RequestBody Map<String, Integer> request) {
+        Integer id = request.get("id");
+        if (id == null) {
+            return Result.fail("缺少 id 参数");
+        }
+        return bookService.removeById(id) ? Result.success() : Result.fail();
     }
 }

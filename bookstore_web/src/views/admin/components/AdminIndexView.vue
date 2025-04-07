@@ -6,7 +6,7 @@
       </div>
   
       <!-- 主体区域 -->
-      <div class="flex-fill d-flex flex-column">
+      <div class="flex-fill d-flex flex-column" style="background-color: #f8f9fa;">
         <!-- 顶部栏 -->
         <div class="d-flex justify-content-between align-items-center p-2 border-bottom" style="font-size: 12px;">
           <AdminHeaderView @doCollapse="doCollapse" :icon="icon" />

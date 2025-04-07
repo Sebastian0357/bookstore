@@ -1,131 +1,142 @@
 <template>
-  <ContentField>
-    <form class="container text-center">
-      <div class="row justify-content-center align-items-center">
-        <!-- 用户头像和上传 -->
-        <div class="col-12 col-md-4 mb-4 text-center">
-          <img src="@/assets/images/我与地坛.png" class="pic-icon mb-3" id="image" alt="User Avatar" />
-          <div>
-            <label for="formFile" class="form-label">上传头像</label>
-            <input class="form-control" type="file" id="formFile">
+    <ContentField>
+      <form class="container text-center">
+        <div class="row justify-content-center align-items-center">
+          <!-- 用户头像和上传 -->
+          <div class="col-12 col-md-4 mb-4 text-center">
+            <img v-if="user.photo" :src="user.photo" class="pic-icon" alt="用户头像">
+            <div>
+              <label for="formFile" class="form-label">上传头像</label>
+              <input type="file" class="form-control" id="img" @change="handleFileChange">
+            </div>
+          </div>
+  
+          <!-- 用户信息输入 -->
+          <div class="col-12 col-md-8">
+            <div class="row mb-3">
+              <label for="username" class="col-md-3 col-form-label">用户名</label>
+              <div class="col-md-9">
+                <input v-model="user.username" type="text" class="form-control" id="username" placeholder="请输入用户名" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="sex" class="col-md-3 col-form-label">性别</label>
+              <div class="col-md-9">
+                <select v-model="user.sex" class="form-control" id="sex">
+                  <option value="男">男</option>
+                  <option value="女">女</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="phonenumber" class="col-md-3 col-form-label">手机号</label>
+              <div class="col-md-9">
+                <input v-model="user.phonenumber" type="text" class="form-control" id="phonenumber"
+                  placeholder="请输入手机号" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="birthday" class="col-md-3 col-form-label">生日</label>
+              <div class="col-md-9">
+                <input v-model="user.birthday" type="date" class="form-control" id="birthday" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="email" class="col-md-3 col-form-label">邮箱</label>
+              <div class="col-md-9">
+                <input v-model="user.email" type="email" class="form-control" id="email" placeholder="请输入邮箱" />
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="role" class="col-md-3 col-form-label">角色</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="role" :value="roleText" disabled />
+              </div>
+            </div>
           </div>
         </div>
-
-        <!-- 用户信息输入 -->
-        <div class="col-12 col-md-8">
-          <div class="row mb-3">
-            <label for="username" class="col-md-3 col-form-label">用户名</label>
-            <div class="col-md-9">
-              <input v-model="username" type="text" class="form-control" id="username" placeholder="请输入用户名" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="password" class="col-md-3 col-form-label">密码</label>
-            <div class="col-md-9">
-              <input v-model="password" type="password" class="form-control" id="password" placeholder="请输入密码" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="phone" class="col-md-3 col-form-label">手机号</label>
-            <div class="col-md-9">
-              <input v-model="phone" type="text" class="form-control" id="phone" placeholder="请输入手机号" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="birthday" class="col-md-3 col-form-label">生日</label>
-            <div class="col-md-9">
-              <input v-model="birthday" type="date" class="form-control" id="birthday" />
-            </div>
-          </div>
-          <div class="row mb-4">
-            <label for="email" class="col-md-3 col-form-label">邮箱</label>
-            <div class="col-md-9">
-              <input v-model="email" type="email" class="form-control" id="email" placeholder="请输入邮箱" />
-            </div>
-          </div>
+  
+        <!-- 修改按钮 -->
+        <div class="d-flex justify-content-center mb-4">
+          <button @click="update(user.id)" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#editModal">
+            修改信息
+          </button>
         </div>
-      </div>
-
-      <!-- 修改按钮 -->
-      <div class="d-flex justify-content-center mb-4">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">
-          修改信息
-        </button>
-      </div>
-    </form>
-
-    <!-- 编辑信息的 Modal -->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="myModalLabel">编辑个人信息</h4>
-          </div>
-          <div class="modal-body">
-            <form action="" class="form-horizontal">
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">用户名：</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="modal_cus_name" placeholder="请输入新的用户名" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">密码：</label>
-                <div class="col-sm-9">
-                  <input type="password" class="form-control" id="modal_bj_prd" placeholder="请输入新的密码" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">邮箱：</label>
-                <div class="col-sm-9">
-                  <input type="email" class="form-control" id="modal_up" placeholder="请输入新邮箱" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">手机号：</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="modal_mobile" placeholder="请输入新手机号" />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="save-edit-btn">
-              保存
-            </button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              关闭
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </ContentField>
-</template>
-
-<script>
-import ContentField from "@/components/ContentField.vue";
-
-export default {
-  components: {
-    ContentField,
-  },
-  data() {
-    return {
-      username: "",
-      password: "",
-      phone: "",
-      birthday: "",
-      email: "",
-    };
-  },
-};
-</script>
-
+      </form>
+    </ContentField>
+    <!-- 成功/失败消息 -->
+    <MessageBox ref="messageBox" />
+  </template>
+  
+  
+  <script>
+  import axios from 'axios';
+  import MessageBox from '@/components/MessageBox.vue';// 引入MessageBox组件
+  import { handleFileUpload, submitFile } from '@/util/fileUpload';
+  export default {
+    components: {
+      MessageBox
+    },
+    data() {
+      return {
+        user: {},
+        file: ''
+      };
+    },
+    computed: {
+      roleText() {
+        return this.role === 1 ? "管理员" : "用户";
+      },
+    },
+    methods: {
+      loadPost() {
+        axios
+          .post(
+            'http://localhost:1118/user/detail',
+            { id: this.$store.state.user.id }, {  // 传 JSON 对象
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.user = res.data.data;
+            } else {
+              this.$refs.messageBox.showFeedback('error', '获取个人信息失败');
+  
+            }
+          });
+      },
+      handleFileChange(event) {
+        this.file = handleFileUpload(event);  // 调用通用文件上传方法
+      },
+      update() {
+        submitFile(this.file).then(fileUrl => {
+          if (fileUrl) {
+            this.user.photo = fileUrl; // 只有文件上传成功才赋值
+            console.log(this.user.photo); // 确认 img 被正确赋值
+          }
+          axios
+            .post(
+              'http://localhost:1118/user/update', this.user, {
+              headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
+            }).then(res => {
+              if (res.data.code === 200) {
+                this.$refs.messageBox.showFeedback('success', '修改个人信息成功');
+                this.loadPost()
+              } else {
+                this.$refs.messageBox.showFeedback('error', '修改个人信息失败');
+  
+              }
+            });
+        }).catch(() => {
+          console.log('文件上传失败，请重试');
+        });
+      }
+    },
+    mounted() {
+      this.loadPost()
+    }
+  };
+  </script>
 <style scoped>
 .container {
   width: 80%;

@@ -3,7 +3,7 @@ package com.bookstore.backend.controller.bookshelf;
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Book;
 import com.bookstore.backend.entity.Bookshelf;
-import com.bookstore.backend.entity.Order;
+import com.bookstore.backend.entity.Orders;
 import com.bookstore.backend.mapper.OrderMapper;
 import com.bookstore.backend.service.bookshelf.BookshelfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +53,10 @@ public class BookshelfController {
     @PostMapping("/purchase")
     public Result purchaseBooks(@RequestBody List<Book> books, @RequestParam Integer userId) {
         try {
-            List<Order> orders = new ArrayList<>();
+            List<Orders> orders = new ArrayList<>();
 
             for (Book book : books) {
-                Order order = new Order();
+                Orders order = new Orders();
                 order.setUserId(userId);
                 order.setBookId(book.getId());
                 order.setBookname(book.getBookname());

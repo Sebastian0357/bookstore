@@ -12,36 +12,24 @@
     <select id="getHotRank" resultType="com.bookstore.backend.entity.Book">
         SELECT * FROM book
         ORDER BY popularity DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
     </select>
 
     <!-- 查询新书榜（按出版日期排序，返回前N条） -->
     <select id="getNewBookRank" resultType="com.bookstore.backend.entity.Book">
         SELECT * FROM book
         ORDER BY pressdate DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
     </select>
 
     <!-- 查询畅销榜（按销量排序，返回前N条） -->
     <select id="getBestSellerRank" resultType="com.bookstore.backend.entity.Book">
         SELECT * FROM book
         ORDER BY sales DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
     </select>
 
     <!-- 查询评分榜（按评分排序，返回前N条） -->
     <select id="getRatingRank" resultType="com.bookstore.backend.entity.Book">
         SELECT * FROM book
         ORDER BY rating DESC
-        <if test="limit != null">
-            LIMIT #{limit}  <!-- 动态 LIMIT -->
-        </if>
     </select>
 
     <!-- 查询评分榜（按评分排序，返回前N条） -->

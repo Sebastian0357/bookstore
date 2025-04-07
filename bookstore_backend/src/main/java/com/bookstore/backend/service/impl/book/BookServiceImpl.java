@@ -28,23 +28,23 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     }
 
     @Override
-    public List<Book> getHotRank(int limit) {
-        return bookMapper.getHotRank(limit);
+    public IPage getHotRank(IPage<Book> page) {
+        return bookMapper.getHotRank(page);
     }
 
     @Override
-    public List<Book> getNewBookRank(int limit) {
-        return bookMapper.getNewBookRank(limit);
+    public IPage getNewBookRank(IPage<Book> page) {
+        return bookMapper.getNewBookRank(page);
     }
 
     @Override
-    public List<Book> getBestSellerRank(int limit) {
-        return bookMapper.getBestSellerRank(limit);
+    public IPage getBestSellerRank(IPage<Book> page) {
+        return bookMapper.getBestSellerRank(page);
     }
 
     @Override
-    public List<Book> getRatingRank(int limit) {
-        return bookMapper.getRatingRank(limit);
+    public IPage getRatingRank(IPage<Book> page) {
+        return bookMapper.getRatingRank(page);
     }
 
     @Override

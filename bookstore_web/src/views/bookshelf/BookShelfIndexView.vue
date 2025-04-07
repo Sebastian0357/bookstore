@@ -2,11 +2,20 @@
     <div class="bookshelf-container">
         <h1 class="bookshelf-title">我的书架</h1>
 
+        <!-- 按钮容器，三个按钮同一行 -->
+        <div class="button-container">
+            <button v-if="!isSelectionMode" @click="enterSelectionMode" class="btn btn-selection">选择模式</button>
+            <button v-if="isSelectionMode" @click="exitSelectionMode" class="btn btn-selection">退出选择</button>
+            <button v-if="isSelectionMode" class="btn btn-selection" @click="openConfirmDialog('purchase')" :disabled="selectedBooks.length === 0">购买</button>
+            <button v-if="isSelectionMode" class="btn btn-selection" @click="openConfirmDialog('remove')" :disabled="selectedBooks.length === 0">移除</button>
+        </div>
+
         <div class="book-list">
-            <div v-for="book in books" :key="book.id" class="book-card">
-                <div class="book-actions">
-                    <input type="checkbox" v-model="selectedBooks" :value="book" class="book-checkbox" />
-                </div>
+            <div v-for="book in books" :key="book.id" 
+                class="book-card"
+                @click="toggleSelection(book)"
+                :class="{'selected': selectedBooks.includes(book)}">
+                
                 <img :src="book.img" alt="书籍封面" class="book-image" />
                 <div class="book-info">
                     <h3 class="book-title">{{ book.bookname }}</h3>
@@ -15,15 +24,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary purchase-btn" @click="openConfirmDialog('purchase')"
-            :disabled="selectedBooks.length === 0">
-            购买选中的书籍
-        </button>
-        <button class="btn btn-danger remove-btn" @click="openConfirmDialog('remove')"
-            :disabled="selectedBooks.length === 0">
-            移除选中的书籍
-        </button>
-
+        <!-- 没有书籍的提示 -->
         <div v-if="books.length === 0" class="no-books-message">
             <p>您的书架是空的，快来添加一些书籍吧！</p>
         </div>
@@ -39,6 +40,7 @@
                 </div>
             </div>
         </div>
+
         <!-- 成功/失败消息 -->
         <div v-if="showMessage" class="message-box" :class="messageType">
             {{ messageText }}
@@ -52,12 +54,12 @@ export default {
     data() {
         return {
             books: [],
-            selectedBooks: [],
-            orders: [],
+            selectedBooks: [], // 存储选中的书籍
+            isSelectionMode: false, // 是否进入选择模式
             showDialog: false,
             dialogTitle: '',
             dialogMessage: '',
-            action: '',
+            action: '', // 当前操作：购买或移除
             showMessage: false,
             messageText: '',
             messageType: '' // 'success' or 'error'
@@ -76,6 +78,33 @@ export default {
                     console.error('获取书架失败', err);
                 });
         },
+
+        // 进入选择模式
+        enterSelectionMode() {
+            this.isSelectionMode = true;
+        },
+
+        // 退出选择模式
+        exitSelectionMode() {
+            this.isSelectionMode = false;
+            this.selectedBooks = []; // 清空已选的书籍
+        },
+
+        // 切换书籍选择状态
+        toggleSelection(book) {
+            if (this.isSelectionMode) {
+                const index = this.selectedBooks.indexOf(book);
+                if (index === -1) {
+                    this.selectedBooks.push(book); // 添加到选中列表
+                } else {
+                    this.selectedBooks.splice(index, 1); // 从选中列表移除
+                }
+            } else {
+                // 退出选择模式时默认跳转到书籍详情
+                this.goToDetail(book.id);
+            }
+        },
+
         openConfirmDialog(action) {
             this.action = action;
             if (action === 'purchase') {
@@ -87,6 +116,7 @@ export default {
             }
             this.showDialog = true;
         },
+
         handleDialogResponse(isConfirmed) {
             this.showDialog = false;
             if (isConfirmed) {
@@ -97,6 +127,7 @@ export default {
                 }
             }
         },
+
         showFeedback(type, message) {
             this.messageType = type;
             this.messageText = message;
@@ -133,8 +164,7 @@ export default {
             })
                 .then(res => {
                     if (res.data.code === 200) {
-                        this.orders.push(...res.data.data);
-                        this.selectedBooks = [];
+                        this.selectedBooks = []; // 清空选择的书籍
                         this.showFeedback('success', '购买成功！');
                     } else {
                         this.showFeedback('error', res.data.message || '购买未完成');
@@ -146,12 +176,10 @@ export default {
                 });
         },
 
-        // 修正的移除书籍请求
         removeBooks() {
-            const userId = this.$store.state.user.id; // 获取当前用户的 ID
-            const bookIds = this.selectedBooks.map(book => book.id); // 获取选中的书籍 ID
+            const userId = this.$store.state.user.id;
+            const bookIds = this.selectedBooks.map(book => book.id);
 
-            // 这里将请求修正回去
             axios.post('http://localhost:1118/bookshelf/remove', bookIds, {
                 params: { userId },
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') }
@@ -159,7 +187,7 @@ export default {
                 .then(res => {
                     if (res.data.code === 200) {
                         this.showFeedback('success', '书籍已移除！');
-                        this.selectedBooks = []; // 清空选择的书籍
+                        this.selectedBooks = [];
                         this.getBookshelf(); // 删除后刷新书架数据
                     } else {
                         this.showFeedback('error', '移除失败，请稍后重试');
@@ -170,6 +198,10 @@ export default {
                     this.showFeedback('error', '移除失败，请稍后重试');
                 });
         },
+
+        goToDetail(bookId) {
+            this.$router.push(`/book/${bookId}`);
+        }
     },
     beforeMount() {
         this.getBookshelf();
@@ -180,7 +212,8 @@ export default {
 <style scoped>
 .bookshelf-container {
     width: 80%;
-    margin: 0 auto;
+    aspect-ratio: 1.8;
+    margin: 40px auto;
     padding: 20px;
     background: #ffffff;
     border-radius: 8px;
@@ -194,11 +227,31 @@ export default {
     margin-bottom: 30px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px; /* 统一按钮间距为 5px */
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 8px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-selection {
+    background-color: #f0f0f0; /* 统一颜色为选择模式的背景色 */
+    color: #333;
+}
+
 .book-list {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .book-card {
@@ -208,118 +261,41 @@ export default {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: center;
-    padding: 10px;
-}
-
-.book-actions {
+    aspect-ratio: 1 / 1.618;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    padding: 10px;
+    transition: background-color 0.3s ease;
 }
 
-.book-checkbox {
-    cursor: pointer;
-}
-
-.remove-btn {
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+.book-card.selected {
+    background-color: #f0f0f0;
+    border: 2px solid #ff6600;
 }
 
 .book-image {
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid #eee;
+    width: 100%;
+    height: auto;
+    max-height: 65%;
+    object-fit: contain;
 }
 
 .book-info {
-    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .book-title {
     font-size: 1rem;
     color: #333;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 
 .book-author {
     font-size: 0.9rem;
     color: #666;
-}
-
-.purchase-btn,
-.remove-btn {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 1rem;
-}
-
-.order-list {
-    margin-top: 40px;
-}
-
-.order-title {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.order-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.no-books-message {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #777;
-}
-
-.dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.dialog {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    width: 400px;
-    text-align: center;
-}
-
-.dialog-actions {
-    margin-top: 20px;
-}
-
-.dialog button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-    border: none;
-}
-
-.btn-secondary {
-    background-color: #ccc;
-    color: white;
-    border: none;
 }
 
 .message-box {
@@ -340,7 +316,7 @@ export default {
 }
 
 .error {
-    background-color: #FF4D4F;
+    background-color: #F44336;
     color: white;
 }
 </style>

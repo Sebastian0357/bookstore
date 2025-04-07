@@ -2,18 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookstore.backend.mapper.OrderMapper">
     <insert id="insertBatch" parameterType="java.util.List">
-        INSERT INTO `order` (userid, bookid, bookname, author, price, date, status)
+        INSERT INTO orders (userid, bookid, bookname, author, price, date, status)
         VALUES
         <foreach collection="list" item="order" separator=",">
-            (#{order.userId}, #{order.bookId}, #{order.bookname}, #{order.author}, #{order.price}, #{order.date}, #{order.status})
+            (#{order.userId}, #{order.bookId}, #{order.bookname}, #{order.author}, #{order.price}, #{order.date},
+            #{order.status})
         </foreach>
     </insert>
 
-    <select id="getOrdersByUserId" resultType="com.bookstore.backend.entity.Order">
+    <select id="getOrdersByUserId" resultType="com.bookstore.backend.entity.Orders">
         SELECT bookid, bookname, author, price, `date`, status
-        FROM `order`
+        FROM orders
         WHERE userid = #{userId}
         ORDER BY `date` DESC
     </select>
+
 
 </mapper>

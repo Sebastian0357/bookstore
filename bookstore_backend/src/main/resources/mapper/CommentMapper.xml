@@ -10,6 +10,19 @@
         ORDER BY c.time DESC
     </select>
 
+    <select id="pageC" resultType="map">
+        SELECT c.id,
+               u.username,
+               b.bookname,
+               c.time AS commentTime,
+               c.comment,
+               c.rating
+        FROM comment c
+                 INNER JOIN book b ON c.bookid = b.id
+                 INNER JOIN user u ON c.userid = u.id
+        ORDER BY c.time DESC
+    </select>
+
     <!-- 结果映射，将数据库字段映射到 Comment 对象 -->
     <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Comment">
         <id property="id" column="id"/>

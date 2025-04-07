@@ -1,5 +1,7 @@
 package com.bookstore.backend.service.impl.comment;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.mapper.CommentMapper;
@@ -24,4 +26,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public List<Comment> getCommentsByBookId(Integer bookId) {
         return commentMapper.getCommentsByBookId(bookId);
     }
+
+    @Override
+    public IPage pageC(IPage<Comment> page) {
+        return commentMapper.pageC(page);
+    }
+
+    @Override
+    public IPage pageCC(IPage<Comment> page, Wrapper wrapper) {
+        return commentMapper.pageCC(page, wrapper);
+    }
+
+
 }

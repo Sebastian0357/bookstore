@@ -25,22 +25,22 @@ public interface BookMapper extends BaseMapper<Book> {
     /**
      * 获取热度榜（按热度排序，返回前N条）
      */
-    List<Book> getHotRank(@Param("limit") Integer limit);
+    IPage getHotRank(IPage<Book> page);
 
     /**
      * 获取新书榜（按出版日期排序，返回前N条）
      */
-    List<Book> getNewBookRank(@Param("limit") Integer limit);
+    IPage getNewBookRank(IPage<Book> page);
 
     /**
      * 获取畅销榜（按销量排序，返回前N条）
      */
-    List<Book> getBestSellerRank(@Param("limit") Integer limit);
+    IPage getBestSellerRank(IPage<Book> page);
 
     /**
      * 获取评分榜（按评分排序，返回前N条）
      */
-    List<Book> getRatingRank(@Param("limit") Integer limit);
+    IPage getRatingRank(IPage<Book> page);
 
     /**
      * 根据id获取书籍详细信息

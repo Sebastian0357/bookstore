@@ -18,6 +18,10 @@ public class FilePathConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:E:/image/"); //真实本地路径
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/"); // 这里写你的文件存储路径
+
+
     }
 }
 

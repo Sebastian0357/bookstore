@@ -25,7 +25,7 @@
                         <button class="btn btn-info btn-sm" @click="viewOrder(order)">查看</button>
                         <button class="btn btn-danger btn-sm ml-2" v-if="order.status === 'pending'"
                             @click="cancelOrder(order.id)">取消</button>
-                        <button class="btn btn-primary btn-sm ml-2" @click="openReview(order)">评论</button>
+                        <button class="btn btn-primary btn-sm ml-2" @click="openReview(order)" style="margin-left: 5px;">评论</button>
                     </td>
 
 
@@ -34,7 +34,7 @@
         </table>
 
         <!-- 分页 -->
-        <!-- <nav>
+        <nav>
             <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: pageNum === 1 }">
                     <a class="page-link" href="#" @click="handlePageChange(pageNum - 1)">上一页</a>
@@ -47,7 +47,7 @@
                     <a class="page-link" href="#" @click="handlePageChange(pageNum + 1)">下一页</a>
                 </li>
             </ul>
-        </nav> -->
+        </nav>
 
         <!-- 订单详情弹窗 -->
         <div class="modal" tabindex="-1" role="dialog" v-if="showOrderDetail">

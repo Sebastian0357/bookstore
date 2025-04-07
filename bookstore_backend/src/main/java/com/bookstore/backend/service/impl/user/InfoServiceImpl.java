@@ -1,8 +1,13 @@
 package com.bookstore.backend.service.impl.user;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bookstore.backend.entity.User;
+import com.bookstore.backend.mapper.UserMapper;
 import com.bookstore.backend.service.impl.utils.UserDetailsImpl;
 import com.bookstore.backend.service.user.InfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,7 +22,11 @@ import java.util.Map;
  * @Version V1.0
  **/
 @Service
-public class InfoServiceImpl implements InfoService {
+public class InfoServiceImpl extends ServiceImpl<UserMapper, User> implements InfoService {
+
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public Map<String, String> getinfo() {
         UsernamePasswordAuthenticationToken authentication =
@@ -30,8 +39,14 @@ public class InfoServiceImpl implements InfoService {
         map.put("id", user.getId().toString());
         map.put("username", user.getUsername());
         map.put("photo", user.getPhoto());
-        map.put("roleid", user.getRole());
+        map.put("roleId", user.getRole());
 
         return map;
     }
+
+    @Override
+    public IPage pageCC(IPage<User> page, Wrapper wrapper) {
+        return userMapper.pageCC(page, wrapper);
+    }
+
 }

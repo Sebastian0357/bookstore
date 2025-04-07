@@ -47,7 +47,6 @@
   </template>
   
   <script>
-  import axios from 'axios';
   export default {
     name: "RecordManage",
     data() {
@@ -100,7 +99,7 @@
         this.goodstype = '';
       },
       loadStorage() {
-        axios.get(this.$httpUrl + '/storage/list').then(res => res.data).then(res => {
+        this.$axios.get(this.$httpUrl + '/storage/list').then(res => res.data).then(res => {
           if (res.code === 200) {
             this.storageData = res.data;
           } else {
@@ -118,7 +117,7 @@
         });
       },
       loadPost() {
-        axios.post('http://localhost:1118/record/listPageC1', {
+        this.$axios.post(this.$httpUrl + '/record/listPageC1', {
           pageSize: this.pageSize,
           pageNum: this.pageNum,
           param: {
@@ -126,9 +125,7 @@
             goodstype: this.goodstype + '',
             storage: this.storage + '',
           }
-        },{
-        headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
-      }).then(res => res.data).then(res => {
+        }).then(res => res.data).then(res => {
           if (res.code === 200) {
             this.tableData = res.data;
             this.total = res.total;
@@ -140,8 +137,8 @@
       }
     },
     beforeMount() {
-    //   this.loadStorage();
-    //   this.loadGoodstype();
+      this.loadStorage();
+      this.loadGoodstype();
       this.loadPost();
     }
   };

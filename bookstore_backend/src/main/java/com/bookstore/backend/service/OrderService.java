@@ -3,8 +3,7 @@ package com.bookstore.backend.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bookstore.backend.entity.Book;
-import com.bookstore.backend.entity.Order;
+import com.bookstore.backend.entity.Orders;
 
 import java.util.List;
 
@@ -14,8 +13,8 @@ import java.util.List;
  * @Date 2025/3/15 15:37
  * @Version V1.0
  **/
-public interface OrderService extends IService<Order> {
-    IPage pageCC(IPage<Order> page, Wrapper wrapper);//分页查询
+public interface OrderService extends IService<Orders> {
+    IPage pageCC(IPage<Orders> page, Wrapper wrapper);//分页查询
 
-    List<Order> getUserOrder(Integer userId);
+    List<Orders> getUserOrder(Integer userId);
 }

@@ -15,7 +15,7 @@
         <!-- 主体内容 -->
         <div class="main-content p-3" style="height: calc(100vh - 60px);">
           <!-- 路由内容渲染 -->
-          <router-view />
+          <router-view style="background-color: #f8f9fa;"/>
         </div>
       </div>
     </div>
@@ -63,6 +63,7 @@
   }
   
   .el-main {
+    background-color: #f8f9fa;
     padding: 10px;
   }
   

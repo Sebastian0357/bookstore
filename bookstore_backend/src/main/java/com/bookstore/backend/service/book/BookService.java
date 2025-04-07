@@ -17,13 +17,13 @@ import java.util.List;
 public interface BookService extends IService<Book> {
     IPage pageCC(IPage<Book> page, Wrapper wrapper);//分页查询
 
-    List<Book> getHotRank(int limit);// 热度榜
+    IPage getHotRank(IPage<Book> page);// 热度榜
 
-    List<Book> getNewBookRank(int limit);// 新书榜
+    IPage getNewBookRank(IPage<Book> page);// 新书榜
 
-    List<Book> getBestSellerRank(int limit);// 推荐榜
+    IPage getBestSellerRank(IPage<Book> page);// 推荐榜
 
-    List<Book> getRatingRank(int limit);// 畅销榜
+    IPage getRatingRank(IPage<Book> page);// 畅销榜
 
     Book getBookById(Integer id);
 

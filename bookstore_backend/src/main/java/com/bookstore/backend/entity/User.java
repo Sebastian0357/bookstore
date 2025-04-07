@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @ClassName User
@@ -21,7 +21,7 @@ public class User {
     private String password;
     private String sex;
     private String phonenumber;
-    private Date birthday;
+    private LocalDate birthday;
     private String email;
     private String photo;
     private String role;

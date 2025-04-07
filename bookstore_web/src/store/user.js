@@ -9,61 +9,41 @@ export default {
         token: "",
         is_login: false,
         pulling_info: true,  // 是否正在从云端拉取信息
-        roleid: "",
     },
     getters: {
     },
     // 同步放mutations
     mutations: {
         updateUser(state, user) {
+            console.log('updateUser mutation called:', user);  // Log updateUser data
             state.id = user.id;
             state.username = user.username;
             state.photo = user.photo;
             state.is_login = user.is_login;
-            state.roleid = user.roleid;
-            
+            state.roleId = user.roleId;
         },
         updateToken(state, token) {
+            console.log('updateToken mutation called:', token);  // Log token data
             state.token = token;
-
         },
         logout(state) {
+            console.log('logout mutation called');  // Log logout event
             state.id = "";
             state.username = "";
             state.photo = "";
             state.token = "";
             state.is_login = false;
-            state.roleid = "";
+            state.roleId = "";
         },
         updatePullingInfo(state, pulling_info) {
+            console.log('updatePullingInfo mutation called:', pulling_info);  // Log pulling_info state
             state.pulling_info = pulling_info;
         },
-
     },
     // 异步放actions
     actions: {
-        /**Ajax请求通过XMLHttpRequest对象发送请求，
-            该对象有五个状态（readyState）：
-            0-未初始化、
-            1-正在初始化、
-            2-发送数据、
-            3-正在发送数据、
-            4-完成 
-
-            ajax的success和error方法根据响应状态码来触发。
-            当XMLHttpRequest.status为200的时候，表示响应成功，此时触发success().
-            其他状态码则触发error()。
-            除了根据响应状态码外，ajax还会在下列情况下走error方法：
-            返回数据类型不是JSON
-            网络中断
-            后台响应中断
-        */
-       /**
-            在 Vuex 的 actions 中，context 是一个包含了与 Vuex 相关的属性和方法的对象。
-            context 提供了一些方法和属性，用于在 actions 中与 state、mutations 和其他 actions 进行交互。 
-        */
         login(context, data) {
-            
+            console.log('login action started with data:', data);  // Log input data
             $.ajax({
                 url: "http://127.0.0.1:1118/user/token/",
                 type: "post",
@@ -73,49 +53,52 @@ export default {
                     password: data.password,
                 }),
                 success(resp) {
+                    console.log('login response received:', resp);  // Log response from login
                     if (resp.message === "success") {
                         localStorage.setItem("jwt_token", resp.token);
-                        localStorage.setItem("roleid", resp.roleId);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
-                        console.log(resp)
                     } else {
                         data.error(resp);
                     }
-
                 },
                 error(resp) {
+                    console.error('login request failed:', resp);  // Log error response
                     data.error(resp);
                 }
             });
         },
         getinfo(context, data) {
+            console.log('getinfo action started');  // Log getinfo action start
             $.ajax({
                 url: "http://127.0.0.1:1118/user/info/",
                 type: "get",
                 headers: {
-                    Authorization: "Bearer " + context.state.token,
+                    Authorization: "Bearer " + localStorage.getItem("jwt_token"),
                 },
                 success(resp) {
+                    console.log('getinfo response received:', resp);  // Log response from getinfo
                     if (resp.message === "success") {
                         context.commit("updateUser", {
                             //解构resp
                             ...resp,
                             is_login: true,
                         });
-                        data.success(resp)
+                        data.success(resp);
                     } else {
-                        data.error(resp)
+                        data.error(resp);
                     }
                 },
                 error(resp) {
+                    console.error('getinfo request failed:', resp);  // Log error response
                     data.error(resp);
                 }
             });
         },
         
         logout(context) {
-            localStorage.removeItem("jwt_token")
+            console.log('logout action started');  // Log logout action start
+            localStorage.removeItem("jwt_token");
             context.commit("logout");
         }
     },

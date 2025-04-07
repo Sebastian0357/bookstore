@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bookstore.backend.config.QueryPageParam;
 import com.bookstore.backend.config.Result;
+import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.entity.Record;
-import com.bookstore.backend.service.admin.RecordService;
+import com.bookstore.backend.service.comment.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping("/record")
 public class RecordController {
     @Autowired
-    private RecordService recordService;
+    private CommentService recordService;
 
     @PostMapping("/list")
     public Result list(@RequestBody QueryPageParam query) {
@@ -37,7 +38,7 @@ public class RecordController {
 
     @PostMapping("/listPageC1")
     public Result listPageC1(@RequestBody QueryPageParam query) {
-        Page<Record> page = new Page();
+        Page<Comment> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
@@ -49,7 +50,7 @@ public class RecordController {
     }
 
     @PostMapping("/save")
-    public Result save(@RequestBody Record record) {
+    public Result save(@RequestBody Comment record) {
         return recordService.save(record) ? Result.success() : Result.fail();
 
 

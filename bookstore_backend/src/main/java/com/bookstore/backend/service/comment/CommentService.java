@@ -1,5 +1,7 @@
 package com.bookstore.backend.service.comment;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bookstore.backend.entity.Comment;
 
@@ -13,4 +15,8 @@ import java.util.List;
  **/
 public interface CommentService extends IService<Comment> {
     List<Comment> getCommentsByBookId(Integer bookId);
+
+    IPage pageC(IPage<Comment> page);
+
+    IPage pageCC(IPage<Comment> page, Wrapper wrapper);
 }

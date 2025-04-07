@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bookstore.backend.config.QueryPageParam;
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Book;
-import com.bookstore.backend.entity.Goods;
 import com.bookstore.backend.service.admin.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,23 +68,23 @@ public class GoodsController {
     public Result listPage(@RequestBody QueryPageParam query) {
         HashMap param = query.getParam();
         String name = (String) param.get("name");
-        String goodstype = (String) param.get("goodstype");
+        String booktype = (String) param.get("booktype");
         String storage = (String) param.get("storage");
 
         Page<Book> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
-        LambdaQueryWrapper<Goods> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<Book> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(name) && !"null".equals(name)) {
-            queryWrapper.like(Goods::getName, name);
+            queryWrapper.like(Book::getBookname, name);
         }
-        if (StringUtils.isNotBlank(goodstype) && !"null".equals(goodstype)) {
-            queryWrapper.like(Goods::getGoodstype, goodstype);
+        if (StringUtils.isNotBlank(booktype) && !"null".equals(booktype)) {
+            queryWrapper.like(Book::getType, booktype);
         }
-        if (StringUtils.isNotBlank(storage) && !"null".equals(storage)) {
-            queryWrapper.like(Goods::getStorage, storage);
-        }
+//        if (StringUtils.isNotBlank(storage) && !"null".equals(storage)) {
+//            queryWrapper.like(Book::getStorage, storage);
+//        }
 
         IPage result = goodsService.pageCC(page, queryWrapper);
         return Result.success(result.getRecords(), result.getTotal());

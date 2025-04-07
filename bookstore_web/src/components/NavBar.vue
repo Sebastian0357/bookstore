@@ -24,6 +24,30 @@
             >
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'hot_rank' }"
+            active-class="active"
+              >热度榜</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'new_book_rank' }"
+            active-class="active"
+              >新书榜</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'best_seller_rank' }"
+            active-class="active"
+              >畅销榜</router-link 
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'rating_rank' }"
+            active-class="active"
+              >评分榜</router-link
+            >
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'shelf_index' }"
             active-class="active"
               >个人书架</router-link
@@ -35,7 +59,12 @@
               >我的订单</router-link
             >
           </li>
-          
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'admin_index' }"
+            active-class="active"
+              >admin</router-link
+            >
+          </li>
         </ul>
         <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">

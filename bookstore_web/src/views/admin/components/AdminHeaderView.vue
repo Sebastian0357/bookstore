@@ -7,12 +7,12 @@
       
       <!-- 欢迎字样 -->
       <div class="flex-grow-1 text-center" style="font-size: 34px;">
-        <span>乡村书屋管理系统</span>
+        <span>辽宁红色智慧旅游系统</span>
       </div>
       
-      <!-- 用户信息及下拉菜单
-      <div class="dropdown">
-        <span>{{ user.name }}</span>
+      <!-- 用户信息及下拉菜单 -->
+      <!-- <div class="dropdown">
+        <span>{{ this.$store.state.user.username }}</span>
         <i class="bi bi-chevron-down" style="margin-left: 5px;"></i>
         
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
@@ -28,17 +28,12 @@
     name: "AdminHeaderView",
     data() {
       return {
-        user: JSON.parse(sessionStorage.getItem('CurUser'))
       }
     },
     props: {
       icon: String
     },
     methods: {
-    //   toUser() {
-    //     console.log('to_user');
-    //     this.$router.push("/Home");
-    //   },
       logout() {
         console.log('logout');
   
@@ -62,9 +57,6 @@
         this.$emit('doCollapse');
       }
     },
-    // created() {
-    //   this.$router.push("/Home");
-    // }
   }
   </script>
   

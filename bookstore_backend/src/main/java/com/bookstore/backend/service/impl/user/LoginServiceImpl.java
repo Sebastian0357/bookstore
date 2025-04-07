@@ -42,7 +42,6 @@ public class LoginServiceImpl implements LoginService {
         map.put("message", "success");
         map.put("token", jwt);
         map.put("username", user.getUsername());
-        map.put("roleId", user.getRole());
 
         return map;
     }

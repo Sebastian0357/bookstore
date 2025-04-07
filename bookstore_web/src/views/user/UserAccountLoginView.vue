@@ -70,18 +70,17 @@ export default {
 
         // jwt_token未过期 保持登录状态
         const jwt_token = localStorage.getItem("jwt_token");
-        const roleid = localStorage.getItem("roleid");
         if (jwt_token) {
             store.commit("updateToken", jwt_token);
             store.dispatch("getinfo", {
                 success() {
-                    if(roleid === "1"){
-                        router.push({ name: "admin_home" });
+                    const roleId = store.state.user.roleId;
+                    //跳转页面
+                    if (roleId === "1") {
+                        router.push({ name: 'admin_home' });
+                    } else {
+                        router.push({ name: 'home' });
                     }
-                    else{
-                        router.push({ name: "home" });
-                    }
-                    
                     store.commit("updatePullingInfo", false);
                 },
                 error() {
@@ -89,6 +88,7 @@ export default {
                 }
             })
         } else {
+            router.push({ name: "user_login" });
             store.commit("updatePullingInfo", false);
         }
 
@@ -104,8 +104,10 @@ export default {
                 password: password.value,
                 success() {
                     store.dispatch("getinfo", {
-                        success(Response) {
-                            if (Response.roleid == 1) {
+                        success() {
+                            const roleId = store.state.user.roleId;
+                            //跳转页面
+                            if (roleId === "1") {
                                 router.push({ name: 'admin_home' });
                             } else {
                                 router.push({ name: 'home' });
