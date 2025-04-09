@@ -10,25 +10,29 @@
 
     <!-- 查询热度榜（按热度排序，返回前N条） -->
     <select id="getHotRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
+        SELECT *
+        FROM book
         ORDER BY popularity DESC
     </select>
 
     <!-- 查询新书榜（按出版日期排序，返回前N条） -->
     <select id="getNewBookRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
+        SELECT *
+        FROM book
         ORDER BY pressdate DESC
     </select>
 
     <!-- 查询畅销榜（按销量排序，返回前N条） -->
     <select id="getBestSellerRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
+        SELECT *
+        FROM book
         ORDER BY sales DESC
     </select>
 
     <!-- 查询评分榜（按评分排序，返回前N条） -->
     <select id="getRatingRank" resultType="com.bookstore.backend.entity.Book">
-        SELECT * FROM book
+        SELECT *
+        FROM book
         ORDER BY rating DESC
     </select>
 

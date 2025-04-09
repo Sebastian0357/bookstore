@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import DateUtils from '@/views/admin/components/DateUtils.vue';
+import DateUtils from '@/views/admin/DateUtils.vue';
 import axios from 'axios';
 
 export default {

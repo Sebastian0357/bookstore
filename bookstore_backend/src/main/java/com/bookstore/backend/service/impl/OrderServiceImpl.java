@@ -9,8 +9,6 @@ import com.bookstore.backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @ClassName OrderServiceImpl
  * @Author WuTong w13694105330@163.com
@@ -28,9 +26,5 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         return orderMapper.pageCC(page, wrapper);
     }
 
-    @Override
-    public List<Orders> getUserOrder(Integer userId) {
-        return orderMapper.getOrdersByUserId(userId);  // 查询用户书架
-    }
 
 }

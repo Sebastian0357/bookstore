@@ -57,13 +57,13 @@ public class BookshelfController {
 
             for (Book book : books) {
                 Orders order = new Orders();
-                order.setUserId(userId);
-                order.setBookId(book.getId());
+                order.setUserid(userId);
+                order.setBookid(book.getId());
                 order.setBookname(book.getBookname());
                 order.setAuthor(book.getAuthor());
                 order.setPrice(book.getPrice());
                 order.setDate(new Date());
-                order.setStatus("已购买");
+                order.setStatus("未完成");
 
                 orders.add(order);
             }

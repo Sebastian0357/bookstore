@@ -3,7 +3,7 @@
     <div style="margin-bottom: 5px;">
       <!-- Search Input -->
       <div class="input-group mb-2">
-        <input v-model="name" type="text" class="form-control" placeholder="请输入景点" @keyup.enter="loadPost"
+        <input v-model="name" type="text" class="form-control" placeholder="请输入书名" @keyup.enter="loadPost"
           style="max-width: 200px; margin-left: 5px;">
         <div class="input-group-append">
           <button class="btn btn-primary" @click="loadPost" style="margin-left: 5px;">查询</button>
@@ -19,19 +19,19 @@
     <table class="table table-bordered">
       <thead class="thead-light">
         <tr>
-          <th>景点名</th>
+          <th>书名</th>
           <th>用户名</th>
-          <th>分类</th>
           <th>内容</th>
+          <th>时间</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in tableData" :key="row.id">
-          <td>{{ row.spot_name }}</td>
+          <td>{{ row.bookname }}</td>
           <td>{{ row.username }}</td>
-          <td>{{ row.type }}</td>
-          <td>{{ row.notes }}</td>
+          <td>{{ row.comment }}</td>
+          <td>{{ formatDate(row.time) }}</td>
           <td>
             <!-- <button class="btn btn-success btn-sm" @click="mod(row)">编辑</button> -->
             <button class="btn btn-danger btn-sm ml-2" @click="del(row.id)">删除</button>
@@ -54,51 +54,16 @@
         </li>
       </ul>
     </nav>
-
-    <!-- Modal Dialog -->
-    <!-- <div class="modal" tabindex="-1" role="dialog" v-if="centerDialogVisible">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">物品维护</h5>
-          </div>
-          <div class="modal-body">
-            <form ref="form">
-              <div class="form-group">
-                <label for="itemName">物品名</label>
-                <input type="text" class="form-control" id="itemName" v-model="form.bookname" required />
-              </div>
-              <div class="form-group">
-                <label for="goodstype">分类</label>
-                <select id="goodstype" class="form-control" v-model="form.goodstype" required>
-                  <option v-for="item in goodstypeData" :key="item.id" :value="item.id">{{ item.name }}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="itemCount">数量</label>
-                <input type="number" class="form-control" id="itemCount" v-model="form.count" required />
-              </div>
-              <div class="form-group">
-                <label for="remark">备注</label>
-                <textarea class="form-control" id="remark" v-model="form.description"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="centerDialogVisible = false">取 消</button>
-            <button type="button" class="btn btn-primary" @click="save">确 定</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <!-- 成功/失败消息 -->
     <MessageBox ref="messageBox" />
 
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
+import { formatDate } from '@/util/format';
 import MessageBox from '@/components/MessageBox.vue';// 引入MessageBox组件
 
 export default {
@@ -124,7 +89,7 @@ export default {
         type: '',
         author: '',
         press: '',
-        pressdate: '',
+         pressdate: '',
         price: '',
         count: '',
         description: ''
@@ -151,6 +116,9 @@ export default {
     handleCurrentChange(val) {
       this.pageNum = val;
       this.loadPost();
+    },
+    formatDate(date) {
+        return formatDate(date)
     },
     mod(row) {
       this.centerDialogVisible = true;

@@ -3,15 +3,14 @@ package com.bookstore.backend.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bookstore.backend.entity.Orders;
+import com.bookstore.backend.entity.Record;
 
 /**
- * @ClassName OrderService
+ * @ClassName CommentService
  * @Author WuTong w13694105330@163.com
- * @Date 2025/3/15 15:37
+ * @Date 2025/2/11 23:09
  * @Version V1.0
  **/
-public interface OrderService extends IService<Orders> {
-    IPage pageCC(IPage<Orders> page, Wrapper wrapper);//分页查询
-
+public interface RecordService extends IService<Record> {
+    IPage pageCC(IPage<Record> page, Wrapper wrapper);//分页查询
 }

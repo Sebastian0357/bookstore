@@ -3,7 +3,7 @@
     <div style="margin-bottom: 5px;">
       <!-- Search Input -->
       <div class="input-group mb-2">
-        <input v-model="name" type="text" class="form-control" placeholder="请输入景点名" @keyup.enter="loadPost"
+        <input v-model="name" type="text" class="form-control" placeholder="请输入图书名" @keyup.enter="loadPost"
           style="max-width: 200px; margin-left: 5px;">
         <div class="input-group-append">
           <button class="btn btn-primary" @click="loadPost" style="max-width: 200px; margin-left: 5px;">查询</button>
@@ -19,23 +19,29 @@
     <table class="table table-bordered">
       <thead class="thead-light">
         <tr>
-          <th>景点名</th>
+          <th>订单编号</th>
+          <th>图书名</th>
           <th>用户名</th>
           <th>留言</th>
+          <th>评分</th>
+          <th>创建时间</th>
           <th>回复</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in tableData" :key="row.id">
-          <td>{{ row.spot_name }}</td>
+          <td>{{ row.orderid }}</td>
+          <td>{{ row.bookname }}</td>
           <td>{{ row.username }}</td>
-          <td>{{ row.message }}</td>
+          <td>{{ row.remark }}</td>
+          <td>{{ row.rating }}</td>
+          <td>{{ formatDate(row.createtime) }}</td>
           <td>{{ row.reply }}</td>
           <!-- <td v-if="user.role != 2"> -->
           <td>
             <button class="btn btn-success btn-sm" @click="mod(row)">回复</button>
-            <button class="btn btn-danger btn-sm ml-2" @click="del(row.id)">删除</button>
+            <button class="btn btn-danger btn-sm ml-2" @click="del(row.id)" style="margin-left: 5px;">删除</button>
           </td>
         </tr>
       </tbody>
@@ -88,7 +94,7 @@
 <script>
 import axios from 'axios';
 import MessageBox from '@/components/MessageBox.vue';
-
+import { formatDate } from '@/util/format';
 export default {
   components: { MessageBox },
   data() {
@@ -113,13 +119,14 @@ export default {
         pressdate: '',
         price: '',
         count: '',
-        description: ''
+        description: '',
+        reply: ''
       }
     };
   },
   methods: {
     loadPost() {
-      axios.post('http://localhost:1118/review/listPage', {
+      axios.post('http://localhost:1118/record/listPage', {
         pageSize: this.pageSize,
         pageNum: this.pageNum,
         param: { name: this.name, goodstype: this.goodstype + '', storage: this.storage + '' },
@@ -138,6 +145,9 @@ export default {
       this.pageNum = val;
       this.loadPost();
     },
+    formatDate(date) {
+        return formatDate(date)
+    },
     mod(row) {
       this.centerDialogVisible = true;
       // 将选中的行数据传递给表单
@@ -146,19 +156,13 @@ export default {
       });
       console.log(this.form)
     },
-    add() {
-      this.centerDialogVisible = true;
-      this.$nextTick(() => {
-        this.form = { id: '', name: '', storage: '', goodstype: '', count: '', remark: '' };
-      });
-    },
     save() {
       if (!this.form.reply) {
         this.$refs.messageBox.showFeedback('error', '回复不能为空！');
         return;
       }
       this.form.replyContent = this.form.reply
-      axios.post('http://localhost:1118/review/update', this.form, {
+      axios.post('http://localhost:1118/record/update', this.form, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt_token")
         }
@@ -176,7 +180,7 @@ export default {
 
     },
     del(id) {
-      axios.post('http://localhost:1118/review/delete', { id: id }, {  // 传 JSON 对象
+      axios.post('http://localhost:1118/record/delete', { id: id }, {  // 传 JSON 对象
         headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
       }).then(res => {
         if (res.data.code === 200) {

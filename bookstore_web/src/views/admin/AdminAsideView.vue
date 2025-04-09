@@ -16,19 +16,6 @@
       <router-link to="/adminindex/booksmanage" class="text-white ms-2" style="text-decoration: none;">图书管理</router-link>
     </div>
     <div class="d-flex align-items-center px-3 py-2">
-      <i class="bi bi-book-fill" style="font-size: 20px;"></i>
-      <router-link to="/adminindex/linemanage" class="text-white ms-2" style="text-decoration: none;">线路管理</router-link>
-    </div>
-    <div class="d-flex align-items-center px-3 py-2">
-      <i class="bi bi-book-fill" style="font-size: 20px;"></i>
-      <router-link to="/adminindex/foodmanage" class="text-white ms-2" style="text-decoration: none;">美食管理</router-link>
-    </div>
-    <div class="d-flex align-items-center px-3 py-2">
-      <i class="bi bi-file-earmark-text-fill" style="font-size: 20px;"></i>
-      <router-link to="/adminindex/newsmanage" class="text-white ms-2"
-        style="text-decoration: none;">新闻管理</router-link>
-    </div>
-    <div class="d-flex align-items-center px-3 py-2">
       <i class="bi bi-chat-left-text-fill" style="font-size: 20px;"></i>
       <router-link to="/adminindex/commentManage" class="text-white ms-2"
         style="text-decoration: none;">评论管理</router-link>

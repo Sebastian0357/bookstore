@@ -4,12 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.bookstore.backend.entity.Book;
+import com.bookstore.backend.entity.Record;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-
+/**
+ * @ClassName CommentMapper
+ * @Author WuTong w13694105330@163.com
+ * @Date 2025/2/11 23:08
+ * @Version V1.0
+ **/
 @Mapper
-public interface GoodsMapper extends BaseMapper<Book> {
-    IPage pageCC(IPage<Book> page, @Param(Constants.WRAPPER) Wrapper<Book> wrapper);
+public interface RecordMapper extends BaseMapper<Record> {
+    IPage pageCC(IPage<Record> page, @Param(Constants.WRAPPER) Wrapper wrapper);
 }

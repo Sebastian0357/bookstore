@@ -74,9 +74,11 @@
   import axios from 'axios';
   import MessageBox from '@/components/MessageBox.vue';// 引入MessageBox组件
   import { handleFileUpload, submitFile } from '@/util/fileUpload';
+import ContentField from '@/components/ContentField.vue';
   export default {
     components: {
-      MessageBox
+      MessageBox,
+      ContentField
     },
     data() {
       return {
@@ -138,6 +140,7 @@
   };
   </script>
 <style scoped>
+
 .container {
   width: 80%;
   margin: auto;
@@ -175,4 +178,5 @@ label {
 .modal-footer .btn {
   padding: 8px 20px;
 }
+
 </style>

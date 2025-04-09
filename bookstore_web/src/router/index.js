@@ -9,17 +9,13 @@ import UserAccountLoginView from '@/views/user/UserAccountLoginView.vue';
 import UserAccountRegisterView from '@/views/user/UserAccountRegisterView.vue';
 import UserIndexView from '@/views/user/UserIndexView.vue';
 import BookDetailView from '@/views/book/BookDetailView.vue';
-import AdminIndexView from '@/views/admin/components/AdminIndexView.vue';
-import AdminHomeView from '@/views/admin/components/AdminHomeView.vue';
-import RecordManage from '@/views/admin/components/record/RecordManage.vue'
-import LineManage from '@/views/admin/components/line/LineManage.vue';
-import FoodManage from '@/views/admin/components/food/FoodManage.vue';
-import NewsManage from '@/views/admin/components/news/NewsManage.vue';
-import CommentManage from '@/views/admin/components/comment/CommentManage.vue';
-import ReviewManage from '@/views/admin/components/review/ReviewManage.vue';
-import OrderManage from '@/views/admin/components/order/OrderManage.vue';
-import BookManage from '@/views/admin/components/BookManage.vue';
-import UserManage from '@/views/admin/components/UserManage.vue';
+import AdminIndexView from '@/views/admin/AdminIndexView.vue';
+import AdminHomeView from '@/views/admin/AdminHomeView.vue';
+import CommentManage from '@/views/admin/CommentManage.vue';
+import ReviewManage from '@/views/admin/ReviewManage.vue';
+import OrderManage from '@/views/admin/OrderManage.vue';
+import BookManage from '@/views/admin/BookManage.vue';
+import UserManage from '@/views/admin/UserManage.vue';
 import HotRankView from '@/views/rank/HotRankView.vue';
 import BestSellerRank from '@/views/rank/BestSellerRank.vue';
 import NewBookRank from '@/views/rank/NewBookRank.vue';
@@ -134,21 +130,6 @@ const routes = [
                 component: BookManage,
             },
             {
-                path: 'lineManage',
-                name: 'line_manage',
-                component: LineManage,
-            },
-            {
-                path: 'foodManage',
-                name: 'food_manage',
-                component: FoodManage,
-            },
-            {
-                path: 'newsManage',
-                name: 'news_manage',
-                component: NewsManage,
-            },
-            {
                 path: 'commentManage',
                 name: 'comment_manage',
                 component: CommentManage,
@@ -157,11 +138,6 @@ const routes = [
                 path: 'reviewManage',
                 name: 'review_manage',
                 component: ReviewManage,
-            },
-            {
-                path: 'recordManage',
-                name: 'record_Manage',
-                component: RecordManage,
             },
             {
                 path: 'orderManage',

@@ -23,6 +23,15 @@
         ORDER BY c.time DESC
     </select>
 
+    <!-- 分页查询 -->
+    <select id="pageCC" resultType="map">
+        select c.id, c.time, c.comment, u.username, b.bookname
+        from comment c
+                 JOIN user u ON c.userid = u.id
+                 JOIN book b ON c.bookid = b.id
+            ${ew.customSqlSegment}
+    </select>
+
     <!-- 结果映射，将数据库字段映射到 Comment 对象 -->
     <resultMap id="BaseResultMap" type="com.bookstore.backend.entity.Comment">
         <id property="id" column="id"/>

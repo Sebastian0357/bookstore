@@ -8,12 +8,6 @@
         <input v-model="username" type="text" class="form-control" placeholder="请输入用户名" @keyup.enter="loadOrders"
           style="max-width: 200px; margin-left: 5px;">
         <!-- 分类选择框 -->
-
-        <select v-model="type" class="form-control" style="max-width: 200px; margin-left: 5px;">
-          <option value="">全部</option> <!-- 默认值 -->
-          <option value="spot">景区</option>
-          <option value="line">线路</option>
-        </select>
         <div class="input-group-append">
           <button class="btn btn-primary" style="margin-left: 5px;" @click="loadOrders">查询</button>
           <button class="btn btn-success" style="margin-left: 5px;" @click="resetParam">重置</button>
@@ -30,8 +24,7 @@
         <tr>
           <th>订单号</th>
           <th>用户名</th>
-          <th>分类</th>
-          <th>名称</th>
+          <th>书名</th>
           <th>金额</th>
           <th>支付状态</th>
           <th>创建时间</th>
@@ -42,13 +35,12 @@
         <tr v-for="order in orderData" :key="order.id">
           <td>{{ order.id }}</td>
           <td>{{ order.username }}</td>
-          <td>{{ order.spot_name ? "景区" : "线路" }}</td>
-          <td>{{ order.spot_name ? order.spot_name : order.line_name }}</td>
+          <td>{{ order.bookname }}</td>
           <td>{{ order.price }}</td>
           <td>{{ order.status }}</td>
-          <td>{{ formatDate(order.created_at) }}</td>
+          <td>{{ formatDate(order.date) }}</td>
           <td>
-            <button class="btn btn-success btn-sm" @click="confrim(order.id)">确认</button>
+            <button class="btn btn-success btn-sm" @click="confrim(order.id)">完成</button>
             <button class="btn btn-warning btn-sm ml-2" @click="cancle(order.id)" style="margin-left: 5px;">取消</button>
           </td>
         </tr>
@@ -108,7 +100,7 @@ export default {
       axios.post('http://localhost:1118/order/listPage', {
         pageSize: this.pageSize,
         pageNum: this.pageNum,
-        param: { orderId: this.orderId, username: this.username, type: this.type }
+        param: { orderId: this.orderId, username: this.username }
       }, {
         headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") }
       }).then(res => {
@@ -126,7 +118,7 @@ export default {
       this.loadOrders();
     },
     confrim(id) {
-      this.update("已确认", id)
+      this.update("已完成", id)
     },
     cancle(id) {
       this.update("已取消", id)

@@ -6,7 +6,6 @@
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
-                    <!-- <th>订单编号</th> -->
                     <th>书籍名称</th>
                     <th>价格</th>
                     <th>订单状态</th>
@@ -16,19 +15,32 @@
             </thead>
             <tbody>
                 <tr v-for="order in orders" :key="order.id">
-                    <!-- <td>{{ order.id }}</td> -->
                     <td>{{ order.bookname }}</td>
                     <td>¥{{ order.price }}</td>
                     <td>{{ order.status }}</td>
                     <td>{{ formatDate(order.date) }}</td>
                     <td>
                         <button class="btn btn-info btn-sm" @click="viewOrder(order)">查看</button>
-                        <button class="btn btn-danger btn-sm ml-2" v-if="order.status === 'pending'"
-                            @click="cancelOrder(order.id)">取消</button>
-                        <button class="btn btn-primary btn-sm ml-2" @click="openReview(order)" style="margin-left: 5px;">评论</button>
+
+                        <!-- 取消订单按钮 -->
+                        <button v-if="order.status === '未完成'" class="btn btn-warning btn-sm ml-2"
+                            @click="cancelOrder(order.id)">
+                            取消
+                        </button>
+
+                        <!-- 评论按钮 -->
+                        <button v-if="order.status === '已完成'" class="btn btn-primary btn-sm ml-2"
+                            @click="openReview(order)">
+                            评论
+                        </button>
+
+                        <!-- 删除订单按钮 -->
+                        <button v-if="order.status === '已取消'" class="btn btn-danger btn-sm ml-2"
+                            @click="deleteOrder(order.id)">
+                            删除
+                        </button>
+
                     </td>
-
-
                 </tr>
             </tbody>
         </table>
@@ -68,6 +80,7 @@
                 </div>
             </div>
         </div>
+
         <!-- 评论弹窗 -->
         <div class="modal" tabindex="-1" role="dialog" v-if="showReviewModal">
             <div class="modal-dialog" role="document">
@@ -84,7 +97,6 @@
                                 @click="setRating(n)">★</span>
                         </div>
 
-
                         <!-- 评论输入框 -->
                         <textarea v-model="commentText" placeholder="请输入您的评论..." class="form-control"></textarea>
                     </div>
@@ -95,14 +107,20 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+
+    <MessageBox ref="messageBox" />
 </template>
+
 
 <script>
 import axios from "axios";
+import MessageBox from "@/components/MessageBox.vue";
+
 export default {
+    components: {
+        MessageBox
+    },
     data() {
         return {
             orders: [],
@@ -110,7 +128,7 @@ export default {
             pageNum: 1,
             total: 0,
             showReviewModal: false,
-            showOrderDetail: false, 
+            showOrderDetail: false,
             selectedOrder: {},
             rating: 0, // 评分
             commentText: "", // 评论文本
@@ -119,15 +137,22 @@ export default {
 
     methods: {
         loadOrders() {
-            const userId = this.$store.state.user.id;
-            axios.get(`http://localhost:1118/order/list/${userId}`, {
+            axios.post('http://localhost:1118/order/listPage', {
+                userId: this.$store.state.user.id,
+                pageSize: this.pageSize,
+                pageNum: this.pageNum
+            }, {
                 headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
             })
+                .then(res => res.data)
                 .then(res => {
-                    this.orders = res.data;
-                })
-                .catch(err => {
-                    console.error('获取订单失败', err);
+                    if (res.code === 200) {
+                        this.orders = res.data;
+                        this.total = res.total;
+                    } else {
+                        this.$refs.messageBox.showFeedback('error', '获取订单失败');
+                    }
+
                 });
         },
         handlePageChange(val) {
@@ -140,64 +165,80 @@ export default {
         },
         cancelOrder(orderId) {
             axios
-                .post(`http://localhost:1118/orders/cancel/${orderId}`, {}, {
+                .post(`http://localhost:1118/order/cancel/${orderId}`, {}, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
                 })
                 .then((res) => {
                     if (res.data.code === 200) {
-                        alert("订单已取消");
+                        this.$refs.messageBox.showFeedback('success', '订单已取消');
                         this.loadOrders();
                     } else {
-                        alert("取消失败");
+                        this.$refs.messageBox.showFeedback('error', '取消失败');
                     }
                 })
                 .catch((error) => {
                     console.error("取消订单失败", error);
-                    alert("取消失败，请重试");
+                    this.$refs.messageBox.showFeedback('error', '取消失败，请重试');
                 });
         },
-        // 打开评论弹窗
+        deleteOrder(orderId) {
+            axios
+                .delete(`http://localhost:1118/order/delete/${orderId}`, {
+                    headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
+                })
+                .then((res) => {
+                    if (res.data.code === 200) {
+                        this.$refs.messageBox.showFeedback('success', '订单已删除');
+                        this.loadOrders();
+                    } else {
+                        this.$refs.messageBox.showFeedback('error', '删除失败');
+                    }
+                })
+                .catch((error) => {
+                    console.error("删除订单失败", error);
+                    this.$refs.messageBox.showFeedback('error', '删除失败，请重试');
+                });
+        },
         openReview(order) {
             this.selectedOrder = order;
             this.rating = 0; // 重置评分
             this.commentText = ""; // 重置评论
             this.showReviewModal = true;
         },
-
-        // 设置评分
         setRating(star) {
             this.rating = star;
         },
-
-        // 提交评论
         submitReview() {
             if (!this.rating) {
-                alert("请给书籍评分");
+                this.$refs.messageBox.showFeedback('error', '请给书籍评分');
                 return;
             }
-            const commentData = {
+
+            const recordData = {
                 userid: this.$store.state.user.id,
-                bookid: this.selectedOrder.bookid,
-                comment: this.commentText,
-                time: new Date().toISOString(),
+                bookid: this.selectedOrder.bookId,
+                orderid: this.selectedOrder.id,
+                createtime: new Date().toISOString(),
+                remark: this.commentText,
                 rating: this.rating,
             };
+
             axios
-                .post("http://localhost:1118/comments/add", commentData, {
+                .post("http://localhost:1118/record/add", recordData, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
                 })
                 .then((res) => {
                     if (res.data.code === 200) {
-                        alert("评论提交成功");
-                        this.showCommentModal = false;
+                        this.$refs.messageBox.showFeedback('success', '评论提交成功');
+                        this.showReviewModal = false;
                         this.loadOrders(); // 提交评论后刷新订单列表
                     } else {
-                        alert("评论提交失败");
+                        this.$refs.messageBox.showFeedback('error', '评论提交失败');
                     }
                 })
-                .catch((err) => {
-                    console.error("提交评论失败", err);
-                    alert("提交失败，请重试");
+                .catch((error) => {
+                    console.error("提交评论失败", error);
+                    this.$refs.messageBox.showFeedback('error', '提交失败，请重试');
                 });
         },
         formatDate(isoString) {
@@ -210,6 +251,7 @@ export default {
                 String(date.getSeconds()).padStart(2, "0");
         }
     },
+
     beforeMount() {
         this.loadOrders();
     },
@@ -310,5 +352,9 @@ button {
 
 .filled {
     color: gold;
+}
+
+.btn {
+    margin-left: 5px;
 }
 </style>

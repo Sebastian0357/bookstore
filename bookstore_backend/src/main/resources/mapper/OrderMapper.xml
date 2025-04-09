@@ -16,6 +16,11 @@
         WHERE userid = #{userId}
         ORDER BY `date` DESC
     </select>
-
+    <select id="pageCC" resultType="map">
+        select *
+        from orders o
+                JOIN user u ON o.userid = u.id
+            ${ew.customSqlSegment}
+    </select>
 
 </mapper>

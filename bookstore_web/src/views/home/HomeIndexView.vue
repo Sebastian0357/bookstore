@@ -120,7 +120,7 @@ export default {
                 pageSize: 4,
                 pageNum: (this.pageNum % (this.total / 4))
             }, {
-                headers: { Authorization: "Bearer " + state.token },
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') }
             }).then(res => res.data).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data;
@@ -139,11 +139,11 @@ export default {
             const limit = 4;
 
             axios.all([
-                axios.post('http://localhost:1118/bookinfo/hotRank', { pageSize: limit }, { headers: { Authorization: "Bearer " + state.token } }),
-                axios.post('http://localhost:1118/bookinfo/newBookRank', { pageSize: limit }, { headers: { Authorization: "Bearer " + state.token } }),
-                axios.post('http://localhost:1118/bookinfo/bestSellerRank', { pageSize: limit }, { headers: { Authorization: "Bearer " + state.token } }),
-                axios.post('http://localhost:1118/bookinfo/ratingRank', { pageSize: limit }, { headers: { Authorization: "Bearer " + state.token } }),
-                axios.post('http://localhost:1118/bookinfo/hotSearch', { pageSize: limit }, { headers: { Authorization: "Bearer " + state.token } })
+                axios.post('http://localhost:1118/bookinfo/hotRank', { pageSize: limit }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') } }),
+                axios.post('http://localhost:1118/bookinfo/newBookRank', { pageSize: limit }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') } }),
+                axios.post('http://localhost:1118/bookinfo/bestSellerRank', { pageSize: limit }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') } }),
+                axios.post('http://localhost:1118/bookinfo/ratingRank', { pageSize: limit }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') } }),
+                axios.post('http://localhost:1118/bookinfo/hotSearch', { pageSize: limit }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') } })
             ]).then(axios.spread((hotRes, newRes, bestRes, ratingRes, searchRes) => {
                 if (hotRes.data.code === 200) this.tableList[0] = hotRes.data.data;
                 if (newRes.data.code === 200) this.tableList[1] = newRes.data.data;
@@ -194,7 +194,7 @@ export default {
             axios.post('http://localhost:1118/bookinfo/increaseSearchCount', {
                 bookId: bookId,
             }, {
-                headers: { Authorization: "Bearer " + state.token },
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') }
             })
                 .then(res => {
                     if (res.data.code === 200) {

@@ -240,6 +240,7 @@ export default {
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .btn-selection {
@@ -319,4 +320,28 @@ export default {
     background-color: #F44336;
     color: white;
 }
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dialog {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-width: 80%;
+    text-align: center;
+}
+
 </style>

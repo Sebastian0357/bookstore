@@ -1,29 +1,28 @@
 <template>
-    <div class="container-fluid d-flex p-0" style="height: 100vh; border: 1px solid #eee;">
+    <div class="d-flex" style="height: 100vh; border: 1px solid #eee;">
       <!-- 侧边栏 -->
-      <div :style="{ width: asideWidth }" class="bg-light" style="min-height: 100vh;">
+      <div :style="{ width: asideWidth }" class="bg-light" style="height: 100vh; border-right: 1px solid #ccc;">
         <AdminAsideView :isCollapse="isCollapse" />
       </div>
   
-      <!-- 主要内容区域 -->
-      <div class="flex-fill">
-        <!-- 顶部头部 -->
+      <!-- 主体区域 -->
+      <div class="flex-fill d-flex flex-column" style="background-color: #f8f9fa;">
+        <!-- 顶部栏 -->
         <div class="d-flex justify-content-between align-items-center p-2 border-bottom" style="font-size: 12px;">
           <AdminHeaderView @doCollapse="doCollapse" :icon="icon" />
         </div>
   
         <!-- 主体内容 -->
-        <div class="main-content p-3" style="height: calc(100vh - 60px);">
-          <!-- 路由内容渲染 -->
-          <router-view style="background-color: #f8f9fa;"/>
+        <div class="flex-fill p-3" style="overflow-y: auto;">
+          <router-view />
         </div>
       </div>
     </div>
   </template>
   
   <script>
-  import AdminAsideView from '@/views/admin/components/AdminAsideView.vue';
-  import AdminHeaderView from '@/views/admin/components/AdminHeaderView.vue';
+  import AdminAsideView from '@/views/admin/AdminAsideView.vue';
+  import AdminHeaderView from '@/views/admin/AdminHeaderView.vue';
   
   export default {
     name: "AdminIndexView",
@@ -56,14 +55,16 @@
     padding-top: 10px;
   }
   
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
   .el-header {
-    background-color: #f8f9fa;
     color: #333;
     line-height: 60px;
   }
   
   .el-main {
-    background-color: #f8f9fa;
     padding: 10px;
   }
   

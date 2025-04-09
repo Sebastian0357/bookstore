@@ -16,21 +16,23 @@
             <p><strong>价格:</strong> ¥{{ book.price }}</p>
 
             <button @click="addToBookshelf()" class="bookshelf-btn">加入书架</button>
+            <button @click="addToOrders()" class="buy-btn">购买</button>
+
         </div>
 
         <!-- 右侧 书籍评论 -->
         <div class="comments-section">
-            <p class="description" style="cursor: pointer;" data-bs-toggle="modal"
-                data-bs-target="#bookDescriptionModal">
+            <p class="description description-indent" data-bs-toggle="modal" data-bs-target="#bookDescriptionModal">
                 {{ book.description }}
             </p>
 
+
             <h5 class="mb-3">书籍评论:</h5>
             <!-- 书籍评分展示 -->
-            <div class="rating mb-4">
+            <!-- <div class="rating mb-4">
                 <span v-for="n in 5" :key="n" class="star" :class="n <= book.rating ? 'filled' : ''">★</span>
                 <span>{{ book.rating }}/5</span>
-            </div>
+            </div> -->
 
             <!-- 评论列表 -->
             <div class="comments-frame">
@@ -40,21 +42,21 @@
                     <li v-for="comment in comments" :key="comment.id"
                         class="comment-item mb-3 p-3 border rounded shadow-sm">
                         <div class="d-flex justify-content-between">
-                            <strong>{{ comment.username }}</strong>
+                            <strong>{{ comment.comment }}</strong>
                             <span class="text-muted comment-time">{{ formatDate(comment.time) }}</span>
                         </div>
-                        <p class="mt-2">{{ comment.comment }}</p>
+                        <p class="mt-2">{{ comment.username }}</p>
                     </li>
                 </ul>
             </div>
 
             <!-- 评论输入框 + 评分 -->
             <div class="comment-form">
-                <div class="rating-form">
+                <!-- <div class="rating-form">
                     <span v-for="n in 5" :key="'rate-' + n" class="star" :class="n <= rating ? 'filled' : ''"
                         @click="setRating(n)">★</span>
                     <span>{{ rating }}/5</span>
-                </div>
+                </div> -->
                 <textarea v-model="newComment" class="form-control" placeholder="写下你的评论..." rows="2"></textarea>
 
                 <button @click="submitComment()">提交评论</button>
@@ -74,11 +76,11 @@
                         </div>
 
                         <!-- 版权信息部分 -->
-                        <div class="description-section mb-4" >
+                        <div class="description-section mb-4">
                             <h6><strong>版权信息</strong></h6>
                             <p><strong>作者：</strong>{{ book.author }}</p>
                             <p><strong>出版社：</strong>{{ book.press }}</p>
-                            <p><strong>出版时间：</strong>{{ book.pressdate }}</p>
+                            <p><strong>出版时间：</strong>{{ formatDateOnly(book.pressdate) }}</p>
                             <p><strong>分类：</strong>{{ categoryMap[book.type] || '未知分类' }}</p>
                         </div>
                     </div>
@@ -93,10 +95,12 @@
 
 <script>
 import axios from "axios";
+import { formatDateOnly } from "@/util/format";
 export default {
     data() {
         return {
             book: null,
+            bookId:'',
             rating: 0,  // 用来存储用户评分
             newComment: "",
             comments: [],
@@ -127,9 +131,9 @@ export default {
     },
     methods: {
         fetchBookDetail() {
-            const bookId = this.$route.params.id;
+             this.bookId = this.$route.params.id;
             axios
-                .get(`http://localhost:1118/bookinfo/${bookId}`, {
+                .get(`http://localhost:1118/bookinfo/${this.bookId}`, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
                 })
                 .then((res) => {
@@ -142,7 +146,7 @@ export default {
                 });
 
             axios
-                .get(`http://localhost:1118/comments/book/${bookId}`, {
+                .get(`http://localhost:1118/comments/book/${this.bookId}`, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
                 })
                 .then((res) => {
@@ -160,6 +164,9 @@ export default {
         setRating(newRating) {
             this.rating = newRating;  // 设置用户评分
         },
+        formatDateOnly(date) {
+            return formatDateOnly(date)
+        },
         formatDate(isoString) {
             const date = new Date(isoString);
             return date.getFullYear() + '-' +
@@ -172,7 +179,7 @@ export default {
         addToBookshelf() {
             const bookshelf = {
                 userId: this.$store.state.user.id,
-                bookId: this.book.id,
+                bookId: this.bookId,
                 joinTime: new Date()  // 使用当前时间
             };
 
@@ -189,6 +196,62 @@ export default {
                 .catch(err => {
                     console.error('加入书架失败', err);
                     alert('加入书架失败，请重试');
+                });
+        },
+        addToOrders() {
+            const order = {
+                userid: this.$store.state.user.id,
+                bookid: this.bookId,
+                bookname: this.book.bookname,
+                author: this.book.author,
+                price: this.book.price,
+                date: new Date(),           // 当前下单时间
+                status: '未完成'             // 默认订单状态
+            };
+
+            axios.post('http://localhost:1118/order/add', order, {
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') }
+            })
+                .then(res => {
+                    if (res.data.code === 200) {
+                        alert('下单成功');
+                    } else {
+                        alert('下单失败：' + res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.error('下单失败', err);
+                    alert('下单失败，请重试');
+                });
+        },
+        submitComment() {
+            if (!this.newComment.trim()) {
+                alert("评论内容不能为空");
+                return;
+            }
+
+            const commentData = {
+                userid: this.$store.state.user.id,
+                bookid: this.book.id,
+                comment: this.newComment,
+                time: new Date()
+            };
+
+            axios.post('http://localhost:1118/comments/add', commentData, {
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt_token') }
+            })
+                .then(res => {
+                    if (res.data.code === 200) {
+                        alert("评论提交成功");
+                        this.newComment = "";
+                        this.fetchBookDetail();  // 重新获取评论列表
+                    } else {
+                        alert("评论提交失败：" + res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.error("评论提交失败", err);
+                    alert("评论提交失败，请稍后重试");
                 });
         }
 
@@ -519,5 +582,30 @@ small {
 .comments-section h3 {
     margin-bottom: 20px;
     font-size: 22px;
+}
+
+.bookshelf-btn {
+    background-color: #28a745;
+    margin-top: 10px;
+    margin-right: 10px;
+    /* 添加右边距 */
+}
+
+.bookshelf-btn:hover {
+    background-color: #218838;
+}
+
+.buy-btn {
+    background-color: #ffc107;
+    color: black;
+    margin-top: 10px;
+}
+
+.buy-btn:hover {
+    background-color: #e0a800;
+}
+
+.description-indent {
+    text-indent: 2em;
 }
 </style>

@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bookstore.backend.config.QueryPageParam;
 import com.bookstore.backend.config.Result;
 import com.bookstore.backend.entity.Book;
+import com.bookstore.backend.entity.User;
 import com.bookstore.backend.service.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +34,12 @@ public class BookInfoController {
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
+        HashMap param = query.getParam();
+        String name = (String) param.get("name");
         LambdaQueryWrapper<Book> queryWrapper = new LambdaQueryWrapper<>();
-
+        if (StringUtils.isNotBlank(name) && !"null".equals(name)) {
+            queryWrapper.like(Book::getBookname, name);
+        }
         IPage result = bookService.pageCC(page, queryWrapper);
 
         return Result.success(result.getRecords(), result.getTotal());

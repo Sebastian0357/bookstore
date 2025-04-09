@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookstore.backend.mapper.RecordMapper">
+    <!-- 分页查询 -->
+    <select id="pageCC" resultType="map">
+        select r.id, r.remark, r.reply, u.username, r.orderid, r.createtime, r.rating, b.bookname
+        from record r
+                 JOIN user u ON r.userid = u.id
+                 JOIN book b ON r.bookid = b.id
+            ${ew.customSqlSegment}
+        order by r.createtime desc
+    </select>
+</mapper>
+
