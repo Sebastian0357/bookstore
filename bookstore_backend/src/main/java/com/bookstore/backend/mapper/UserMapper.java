@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * @ClassName UserMapper
- * @Author WuTong w13694105330@163.com
+ * @Author Kangyx w13694105330@163.com
  * @Date 2024/9/29 22:44
  * @Version V1.0
  **/

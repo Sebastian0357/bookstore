@@ -300,6 +300,10 @@ export default {
                     this.form.img = fileUrl;
                 }
                 const apiUrl = this.form.id ? '/bookinfo/update' : '/bookinfo/save';
+                if (this.form.price < 0){
+                    this.$refs.messageBox.showFeedback('error', '价格不小于0');
+                    return;
+                }
                 axios.post('http://localhost:1118' + apiUrl, this.form, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") }
                 }).then(res => {

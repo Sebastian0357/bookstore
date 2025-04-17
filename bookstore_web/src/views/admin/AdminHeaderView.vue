@@ -7,7 +7,7 @@
       
       <!-- 欢迎字样 -->
       <div class="flex-grow-1 text-center" style="font-size: 34px;">
-        <span>辽宁红色智慧旅游系统</span>
+        <span>乡村书屋</span>
       </div>
       
       <!-- 用户信息及下拉菜单 -->

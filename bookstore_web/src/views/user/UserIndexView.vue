@@ -31,7 +31,7 @@
             <div class="row mb-3">
               <label for="phonenumber" class="col-md-3 col-form-label">手机号</label>
               <div class="col-md-9">
-                <input v-model="user.phonenumber" type="text" class="form-control" id="phonenumber"
+                <input v-model="user.phonenumber" type="tel" pattern="\d{11}" class="form-control" id="phonenumber"
                   placeholder="请输入手机号" />
               </div>
             </div>
@@ -115,6 +115,10 @@ import ContentField from '@/components/ContentField.vue';
           if (fileUrl) {
             this.user.photo = fileUrl; // 只有文件上传成功才赋值
             console.log(this.user.photo); // 确认 img 被正确赋值
+          }
+          if(!/^\d{11}$/.test(this.user.phonenumber)) {
+            this.$refs.messageBox.showFeedback('error', '输入十一位手机号');
+            return;
           }
           axios
             .post(

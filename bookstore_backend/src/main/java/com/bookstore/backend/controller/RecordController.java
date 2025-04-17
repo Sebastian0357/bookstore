@@ -10,17 +10,14 @@ import com.bookstore.backend.entity.Record;
 import com.bookstore.backend.mapper.RecordMapper;
 import com.bookstore.backend.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @ClassName CommentController
- * @Author WuTong w13694105330@163.com
+ * @Author Kangyx w13694105330@163.com
  * @Date 2025/2/11 23:19
  * @Version V1.0
  **/
@@ -77,4 +74,15 @@ public class RecordController {
         }
         return recordService.removeById(id) ? Result.success() : Result.fail();
     }
+
+    @GetMapping("/queryByOrder/{orderId}")
+    public Result queryByOrder(@PathVariable Integer orderId) {
+        Record record = recordService.getByOrderId(orderId);
+        if (record != null) {
+            return Result.success(record);
+        } else {
+            return Result.success(null); // 没有评论也返回成功
+        }
+    }
+
 }

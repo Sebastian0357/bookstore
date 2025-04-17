@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @ClassName RegisterServiceImpl
- * @Author WuTong w13694105330@163.com
+ * @Author Kangyx w13694105330@163.com
  * @Date 2024/8/20 20:50
  * @Version V1.0
  **/

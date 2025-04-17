@@ -7,7 +7,7 @@ import lombok.Data;
  * 返回前端统一数据的封装类
  *
  * @ClassName Result.java
- * @Author WuTong w13694105330@163.com
+ * @Author Kangyx w13694105330@163.com
  * @Date 2024/6/20 17:45
  * @Version V1.0
  **/

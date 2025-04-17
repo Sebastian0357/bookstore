@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * fresh-token 14days
  *
  * @ClassName UserDetailServiceImpl
- * @Author WuTong w13694105330@163.com
+ * @Author Kangyx w13694105330@163.com
  * @Date 2024/8/19 20:46
  * @Version V1.0
  **/

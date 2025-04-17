@@ -82,6 +82,7 @@
         </div>
 
         <!-- 评论弹窗 -->
+        <!-- 评论弹窗 -->
         <div class="modal" tabindex="-1" role="dialog" v-if="showReviewModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -91,22 +92,34 @@
                     <div class="modal-body">
                         <p><strong>书籍名称:</strong> {{ selectedOrder.bookname }}</p>
 
-                        <!-- 评分（星星选择） -->
-                        <div class="rating">
-                            <span v-for="n in 5" :key="n" class="star" :class="{ 'filled': n <= rating }"
-                                @click="setRating(n)">★</span>
+                        <!-- 已有评论 -->
+                        <div v-if="hasComment">
+                            <p><strong>我的评分:</strong> {{ record.rating }} 星</p>
+                            <p><strong>我的评论:</strong> {{ record.remark }}</p>
+                            <p v-if="record.reply"><strong>管理员回复:</strong> {{ record.reply }}</p>
                         </div>
 
-                        <!-- 评论输入框 -->
-                        <textarea v-model="commentText" placeholder="请输入您的评论..." class="form-control"></textarea>
+                        <!-- 提交评论表单 -->
+                        <div v-else>
+                            <!-- 评分 -->
+                            <div class="rating">
+                                <span v-for="n in 5" :key="n" class="star" :class="{ 'filled': n <= rating }"
+                                    @click="setRating(n)">★</span>
+                            </div>
+
+                            <!-- 评论输入框 -->
+                            <textarea v-model="commentText" placeholder="请输入您的评论..." class="form-control"></textarea>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="showReviewModal = false">关闭</button>
-                        <button type="button" class="btn btn-success" @click="submitReview">提交</button>
+                        <button v-if="!existingReview" type="button" class="btn btn-success"
+                            @click="submitReview">提交</button>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <MessageBox ref="messageBox" />
@@ -132,6 +145,9 @@ export default {
             selectedOrder: {},
             rating: 0, // 评分
             commentText: "", // 评论文本
+            hasComment: false,
+            record:null
+
         };
     },
 
@@ -201,9 +217,25 @@ export default {
         },
         openReview(order) {
             this.selectedOrder = order;
-            this.rating = 0; // 重置评分
-            this.commentText = ""; // 重置评论
-            this.showReviewModal = true;
+            this.hasComment = false;
+
+            // 请求记录信息
+            axios
+                .get(`http://localhost:1118/record/queryByOrder/${order.id}`, {
+                    headers: { Authorization: "Bearer " + localStorage.getItem("jwt_token") },
+                })
+                .then((res) => {
+                    if (res.data.code === 200 && res.data.data) {
+                        this.record = res.data.data;
+                        this.hasComment = true;
+                    } else {
+                        this.hasComment = false;
+                    }
+                    this.showReviewModal = true;
+                })
+                .catch(() => {
+                    this.$refs.messageBox.showFeedback("error", "查询评论信息失败");
+                });
         },
         setRating(star) {
             this.rating = star;
